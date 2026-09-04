@@ -1,0 +1,527 @@
+/* ================================
+   EcoTrack Goals Page
+================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+.goals-page {
+  min-height: 100vh;
+  display: flex;
+  background: #f5f7f6;
+  color: #1f2933;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ================================
+   Sidebar
+================================ */
+
+.sidebar {
+  width: 250px;
+  min-height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 28px 18px;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px 30px;
+}
+
+.logo > span {
+  font-size: 32px;
+}
+
+.logo h2 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 700;
+  color: #1f2933;
+}
+
+.logo p {
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: #7b8794;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #52606d;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.sidebar nav a span {
+  width: 22px;
+  text-align: center;
+  font-size: 17px;
+}
+
+.sidebar nav a:hover {
+  background: #f0f7f2;
+  color: #287a45;
+}
+
+.sidebar nav a.active {
+  background: #e8f5ec;
+  color: #287a45;
+  font-weight: 700;
+}
+
+/* ================================
+   Main Content
+================================ */
+
+.main-content {
+  margin-left: 250px;
+  width: calc(100% - 250px);
+  padding: 42px 48px;
+  max-width: 1500px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 38px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #17221b;
+}
+
+.page-header p {
+  margin: 8px 0 0;
+  color: #74817a;
+  font-size: 14px;
+}
+
+.add-goal-btn {
+  border: none;
+  background: #2f8f4e;
+  color: white;
+  padding: 12px 19px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(47, 143, 78, 0.18);
+  transition: 0.2s ease;
+}
+
+.add-goal-btn:hover {
+  background: #267841;
+  transform: translateY(-1px);
+}
+
+/* ================================
+   Section
+================================ */
+
+.goals-section {
+  margin-bottom: 38px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.section-title h2 {
+  margin: 0;
+  font-size: 19px;
+  color: #26352c;
+}
+
+.section-title span {
+  background: #e8f5ec;
+  color: #287a45;
+  padding: 6px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ================================
+   Goal Cards
+================================ */
+
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.goal-card {
+  background: #ffffff;
+  border: 1px solid #e5ebe7;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 3px 12px rgba(25, 55, 35, 0.04);
+  transition: 0.2s ease;
+}
+
+.goal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(25, 55, 35, 0.08);
+}
+
+.goal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goal-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #eef8f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.delete-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  color: #9aa5a0;
+  font-size: 21px;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+.delete-btn:hover {
+  background: #fff1f1;
+  color: #d64545;
+}
+
+.goal-card h3 {
+  margin: 20px 0 7px;
+  font-size: 17px;
+  color: #24342a;
+}
+
+.goal-target {
+  margin: 0 0 22px;
+  color: #7b8794;
+  font-size: 13px;
+}
+
+/* ================================
+   Progress
+================================ */
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: #78857d;
+}
+
+.progress-info strong {
+  color: #287a45;
+  font-size: 13px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #edf1ee;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #42a85f;
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.goal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #eef1ef;
+}
+
+.goal-footer > span {
+  color: #7b8794;
+  font-size: 12px;
+}
+
+.progress-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.progress-buttons button {
+  width: 29px;
+  height: 29px;
+  border: 1px solid #dce5df;
+  background: #ffffff;
+  color: #287a45;
+  border-radius: 7px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.progress-buttons button:hover {
+  background: #eaf6ed;
+}
+
+/* ================================
+   Empty State
+================================ */
+
+.empty-state {
+  text-align: center;
+  background: #ffffff;
+  border: 1px dashed #d7e1da;
+  border-radius: 14px;
+  padding: 55px 20px;
+}
+
+.empty-state div {
+  font-size: 38px;
+}
+
+.empty-state h3 {
+  margin: 14px 0 6px;
+}
+
+.empty-state p {
+  margin: 0;
+  color: #7b8794;
+  font-size: 13px;
+}
+
+/* ================================
+   Completed Goals
+================================ */
+
+.completed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.completed-card {
+  background: #ffffff;
+  border: 1px solid #e5ebe7;
+  border-radius: 12px;
+  padding: 16px 19px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.completed-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #e8f5ec;
+  color: #2f8f4e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.completed-info {
+  flex: 1;
+}
+
+.completed-info h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+}
+
+.completed-info p {
+  margin: 0;
+  color: #7b8794;
+  font-size: 12px;
+}
+
+.completed-card > strong {
+  color: #2f8f4e;
+  font-size: 13px;
+}
+
+/* ================================
+   Modal
+================================ */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 30, 24, 0.48);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  width: 100%;
+  max-width: 470px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 27px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 21px;
+  color: #203028;
+}
+
+.modal-header p {
+  margin: 6px 0 0;
+  color: #7b8794;
+  font-size: 13px;
+}
+
+.close-btn {
+  border: none;
+  background: #f4f6f5;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 21px;
+  cursor: pointer;
+  color: #66736b;
+}
+
+.form-group {
+  margin-bottom: 17px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #34423a;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #d9e1dc;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: #4ba967;
+  box-shadow: 0 0 0 3px rgba(75, 169, 103, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.cancel-btn,
+.save-btn {
+  border: none;
+  padding: 11px 17px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #f1f3f2;
+  color: #59655e;
+}
+
+.save-btn {
+  background: #2f8f4e;
+  color: #ffffff;
+}
+
+.save-btn:hover {
+  background: #267841;
+}
+
+/* ================================
+   Responsive
+================================ */
+
+@media (max-width: 1050px) {
+  .goals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 750px) {
+  .sidebar {
+    width: 210px;
+  }
+
+  .main-content {
+    margin-left: 210px;
+    width: calc(100% - 210px);
+    padding: 30px 25px;
+  }
+
+  .page-header {
+    align-items: flex-start;
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .goals-grid {
+    grid-template-columns: 1fr;
+  }
+}

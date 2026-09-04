@@ -1,0 +1,86 @@
+
+<div class="page">
+
+  <div class="login-card">
+
+    <div class="logo-icon">🌿</div>
+
+    <h1 class="logo-title">
+      <span>Eco</span>Track
+    </h1>
+
+    <p class="tagline">Track • Reduce • Sustain</p>
+
+    <h2>Welcome Back!</h2>
+
+    <p class="subtitle">
+      Login to continue your EcoTrack journey.
+    </p>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+
+      <input
+        id="email"
+        type="email"
+        placeholder="Enter your email"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+
+      <div class="password-box">
+
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter your password"
+        />
+
+        <span class="eye">👁</span>
+
+      </div>
+    </div>
+
+    <!-- Forgot Password -->
+
+    <div class="forgot">
+      <a routerLink="/forgot-password">
+        Forgot Password?
+      </a>
+    </div>
+
+    <button
+      type="button"
+      class="login-btn"
+      (click)="login()">
+      Login
+    </button>
+
+    <div class="divider">
+      <div></div>
+      <span>OR</span>
+      <div></div>
+    </div>
+
+    <button
+      type="button"
+      class="google-btn">
+
+      <span class="google-icon">G</span>
+      Continue with Google
+
+    </button>
+
+    <p class="register">
+      Don't have an account?
+
+      <a routerLink="/register">
+        Register
+      </a>
+    </p>
+
+  </div>
+
+</div>

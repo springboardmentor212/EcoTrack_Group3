@@ -1,0 +1,880 @@
+/* ================================
+   DASHBOARD
+================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+.dashboard-page {
+  min-height: 100vh;
+  display: flex;
+  background: #f5f8f5;
+  color: #26352a;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* ================================
+   SIDEBAR
+================================ */
+
+.sidebar {
+  width: 225px;
+  min-height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #e4e9e4;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 14px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+
+/* LOGO */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 10px 28px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #226b2e;
+}
+
+.brand-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: #e6f4e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+
+/* NAVIGATION */
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nav-item {
+  height: 35px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #536258;
+  font-size: 11px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.nav-item:hover {
+  background: #eef6ef;
+  color: #247332;
+}
+
+.nav-item.active {
+  background: #e2f2e5;
+  color: #216d2d;
+  font-weight: 600;
+}
+
+.nav-icon {
+  width: 15px;
+  text-align: center;
+  font-size: 13px;
+}
+
+
+/* USER PROFILE */
+
+.user-profile {
+  margin-top: auto;
+  border-top: 1px solid #edf0ed;
+  padding: 15px 7px 2px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.avatar {
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  background: #e8eee7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.user-profile strong {
+  display: block;
+  font-size: 9px;
+  color: #344039;
+}
+
+.user-profile small {
+  display: block;
+  font-size: 8px;
+  color: #8a958c;
+  margin-top: 3px;
+}
+
+
+/* ================================
+   MAIN CONTENT
+================================ */
+
+.main-content {
+  margin-left: 225px;
+  width: calc(100% - 225px);
+  padding: 34px 38px;
+  max-width: 1150px;
+}
+
+
+/* ================================
+   WELCOME
+================================ */
+
+.welcome-section {
+  margin-bottom: 18px;
+}
+
+.welcome-section h1 {
+  margin: 0;
+  font-size: 18px;
+  color: #27362c;
+}
+
+.welcome-section p {
+  margin: 6px 0 0;
+  font-size: 9px;
+  color: #89938c;
+}
+
+
+/* ================================
+   STAT CARDS
+================================ */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.stat-card {
+  background: white;
+  border: 1px solid #e7ebe7;
+  border-radius: 8px;
+  padding: 13px;
+  min-height: 86px;
+}
+
+.stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 7px;
+  font-weight: 600;
+  color: #68736b;
+  letter-spacing: 0.2px;
+}
+
+.small-icon {
+  font-size: 10px;
+  color: #4aaa58;
+}
+
+.stat-value {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #26372a;
+}
+
+.stat-value span {
+  font-size: 9px;
+  font-weight: 400;
+  color: #778279;
+}
+
+.stat-bottom {
+  margin-top: 5px;
+  font-size: 7px;
+  color: #9aa39c;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.positive {
+  color: #369545;
+  font-weight: 600;
+}
+
+
+/* ================================
+   LOWER GRID
+================================ */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.55fr 0.85fr;
+  gap: 12px;
+}
+
+
+/* ================================
+   COMMON CARD
+================================ */
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e5eae5;
+  border-radius: 8px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 10px;
+  color: #344138;
+}
+
+.card-header span {
+  font-size: 7px;
+  color: #9aa39c;
+}
+
+
+/* ================================
+   CHART
+================================ */
+
+.chart-card {
+  padding: 15px;
+  min-height: 205px;
+}
+
+.this-year {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 7px;
+  color: #79847c;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #4caf50;
+}
+
+.chart {
+  height: 145px;
+  margin-top: 14px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 8px;
+  border-bottom: 1px solid #e8ece8;
+}
+
+.bar-item {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.bar {
+  width: 8px;
+  max-height: 112px;
+  background: #4caf50;
+  border-radius: 3px 3px 0 0;
+}
+
+.bar-item span {
+  margin-top: 7px;
+  margin-bottom: 4px;
+  font-size: 6px;
+  color: #8c968e;
+}
+
+
+/* ================================
+   RIGHT COLUMN
+================================ */
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+/* ================================
+   ACTIVITIES
+================================ */
+
+.activities-card {
+  padding: 14px;
+}
+
+.activity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f2f0;
+}
+
+.activity:last-child {
+  border-bottom: none;
+}
+
+.activity-icon {
+  width: 25px;
+  height: 25px;
+  border-radius: 6px;
+  background: #edf7ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.activity-info {
+  flex: 1;
+}
+
+.activity-info strong {
+  display: block;
+  font-size: 8px;
+  color: #3c493f;
+  font-weight: 600;
+}
+
+.activity-info small {
+  display: block;
+  margin-top: 3px;
+  font-size: 6px;
+  color: #9aa39c;
+}
+
+.activity-points {
+  font-size: 7px;
+  color: #399346;
+  font-weight: 600;
+}
+
+
+/* ================================
+   CHALLENGE
+================================ */
+
+.challenge-card {
+  background: #176522;
+  border-radius: 8px;
+  padding: 14px;
+  color: white;
+}
+
+.challenge-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 7px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.challenge-card h3 {
+  margin: 8px 0 5px;
+  font-size: 12px;
+}
+
+.challenge-card p {
+  margin: 0;
+  font-size: 7px;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 5px;
+  margin-top: 13px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  width: 57%;
+  background: white;
+  border-radius: 10px;
+}
+
+.challenge-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 6px;
+  opacity: 0.9;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+
+  .sidebar {
+    width: 180px;
+  }
+
+  .main-content {
+    margin-left: 180px;
+    width: calc(100% - 180px);
+    padding: 25px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .sidebar {
+    width: 65px;
+    padding: 20px 8px;
+  }
+
+  .brand span,
+  .nav-item span:last-child,
+  .user-profile div:last-child {
+    display: none;
+  }
+
+  .brand {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .nav-item {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .main-content {
+    margin-left: 65px;
+    width: calc(100% - 65px);
+    padding: 20px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart {
+    overflow-x: auto;
+  }
+}
+.activity-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.activity-summary div {
+  background: #eef7ef;
+  border: 1px solid #dcebdc;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.activity-summary span {
+  display: block;
+  font-size: 7px;
+  color: #6d796f;
+  font-weight: 600;
+}
+
+.activity-summary strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 15px;
+  color: #216d2d;
+}
+
+.no-dashboard-activities {
+  padding: 18px 0 5px;
+  text-align: center;
+  color: #9aa39c;
+  font-size: 8px;
+}
+
+@media (max-width: 600px) {
+  .activity-summary {
+    grid-template-columns: 1fr;
+  }
+}
+/* DASHBOARD DESKTOP FONT SIZE */
+
+.page-header h1 {
+  font-size: 28px;
+}
+
+.page-header p {
+  font-size: 14px;
+}
+
+.stat-card span {
+  font-size: 12px;
+}
+
+.stat-card strong {
+  font-size: 24px;
+}
+
+.stat-card small {
+  font-size: 11px;
+}
+
+.section-header h2 {
+  font-size: 16px;
+}
+
+.section-header span {
+  font-size: 11px;
+}
+
+.activity-name {
+  font-size: 13px;
+}
+
+.activity-details {
+  font-size: 11px;
+}
+
+.activity-time {
+  font-size: 13px;
+}
+
+.challenge-title {
+  font-size: 16px;
+}
+
+.challenge-description {
+  font-size: 11px;
+}
+/* DASHBOARD - DESKTOP FONT SIZE */
+
+.dashboard-page {
+  font-size: 14px;
+}
+
+/* Sidebar */
+.sidebar .logo h2 {
+  font-size: 21px;
+}
+
+.sidebar .logo p {
+  font-size: 12px;
+}
+
+.sidebar nav a {
+  font-size: 13px;
+}
+
+/* Welcome */
+.page-header h1 {
+  font-size: 28px;
+}
+
+.page-header p {
+  font-size: 14px;
+}
+
+/* Main stat cards */
+.stat-card h3 {
+  font-size: 12px;
+}
+
+.stat-card .stat-value {
+  font-size: 24px;
+}
+
+.stat-card .stat-value span {
+  font-size: 12px;
+}
+
+.stat-card p {
+  font-size: 12px;
+}
+
+/* Activity summary cards */
+.activity-stat span {
+  font-size: 11px;
+}
+
+.activity-stat strong {
+  font-size: 20px;
+}
+
+/* Recent Activities */
+.recent-activities h2 {
+  font-size: 16px;
+}
+
+.recent-activities p {
+  font-size: 11px;
+}
+
+.recent-activities h3 {
+  font-size: 13px;
+}
+
+.recent-activities span {
+  font-size: 11px;
+}
+
+/* Active Challenge */
+.active-challenge h4 {
+  font-size: 11px;
+}
+
+.active-challenge h2 {
+  font-size: 17px;
+}
+
+.active-challenge p {
+  font-size: 11px;
+}
+
+.active-challenge span {
+  font-size: 10px;
+}
+/* =================================
+   DASHBOARD - PC FONT SIZE
+================================= */
+
+.dashboard-page {
+  font-size: 14px;
+}
+
+/* ================================
+   SIDEBAR
+================================ */
+
+.brand {
+  font-size: 20px;
+}
+
+.nav-item {
+  font-size: 14px;
+}
+
+.nav-icon {
+  font-size: 16px;
+}
+
+.user-profile strong {
+  font-size: 12px;
+}
+
+.user-profile small {
+  font-size: 10px;
+}
+
+/* ================================
+   WELCOME
+================================ */
+
+.welcome-section h1 {
+  font-size: 28px;
+}
+
+.welcome-section p {
+  font-size: 14px;
+}
+
+/* ================================
+   STAT CARDS
+================================ */
+
+.stat-top {
+  font-size: 12px;
+}
+
+.small-icon {
+  font-size: 14px;
+}
+
+.stat-value {
+  font-size: 26px;
+}
+
+.stat-value span {
+  font-size: 13px;
+}
+
+.stat-bottom {
+  font-size: 11px;
+}
+
+/* ================================
+   ACTIVITY SUMMARY
+================================ */
+
+.activity-summary span {
+  font-size: 12px;
+}
+
+.activity-summary strong {
+  font-size: 22px;
+}
+
+/* ================================
+   CARD HEADERS
+================================ */
+
+.card-header h2 {
+  font-size: 17px;
+}
+
+.card-header span {
+  font-size: 11px;
+}
+
+/* ================================
+   CHART
+================================ */
+
+.this-year {
+  font-size: 12px;
+}
+
+.bar-item span {
+  font-size: 10px;
+}
+
+/* ================================
+   RECENT ACTIVITIES
+================================ */
+
+.activity-info strong {
+  font-size: 13px;
+}
+
+.activity-info small {
+  font-size: 11px;
+}
+
+.activity-points {
+  font-size: 11px;
+}
+
+/* ================================
+   ACTIVE CHALLENGE
+================================ */
+
+.challenge-header {
+  font-size: 12px;
+}
+
+.challenge-card h3 {
+  font-size: 18px;
+}
+
+.challenge-card p {
+  font-size: 12px;
+}
+
+.challenge-footer {
+  font-size: 10px;
+}
+
+/* ================================
+   NO ACTIVITIES
+================================ */
+
+.no-dashboard-activities {
+  font-size: 12px;
+}
+
+
+/* =================================
+   PC / LAPTOP
+================================= */
+
+@media (min-width: 901px) {
+  .main-content {
+    padding: 40px 45px;
+    max-width: 1400px;
+  }
+
+  .stats-grid {
+    gap: 16px;
+  }
+
+  .stat-card {
+    padding: 18px;
+    min-height: 110px;
+  }
+
+  .dashboard-grid {
+    gap: 18px;
+  }
+
+  .chart-card {
+    padding: 20px;
+    min-height: 250px;
+  }
+
+  .activities-card {
+    padding: 18px;
+  }
+
+  .activity {
+    padding: 13px 0;
+  }
+
+  .challenge-card {
+    padding: 18px;
+  }
+}

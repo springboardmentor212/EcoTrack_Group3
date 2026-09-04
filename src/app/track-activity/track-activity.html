@@ -1,0 +1,670 @@
+<div class="activity-page">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">🌿</div>
+      <span>EcoTrack</span>
+    </div>
+
+    <nav class="navigation">
+
+      <a routerLink="/dashboard" class="nav-item">
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/track-activity" class="nav-item active">
+        <span class="nav-icon">♧</span>
+        <span>Track Activity</span>
+      </a>
+
+      <a routerLink="/carbon-footprint" class="nav-item">
+        <span class="nav-icon">◉</span>
+        <span>Carbon Footprint</span>
+      </a>
+
+      <a routerLink="/goals" class="nav-item">
+        <span class="nav-icon">◎</span>
+        <span>Goals</span>
+      </a>
+
+      <a routerLink="/challenges" class="nav-item">
+        <span class="nav-icon">♢</span>
+        <span>Challenges</span>
+      </a>
+
+      <a routerLink="/rewards" class="nav-item">
+        <span class="nav-icon">◇</span>
+        <span>Rewards</span>
+      </a>
+
+      <a class="nav-item">
+        <span class="nav-icon">▤</span>
+        <span>Reports</span>
+      </a>
+
+      <a class="nav-item">
+        <span class="nav-icon">◎</span>
+        <span>Profile</span>
+      </a>
+
+    </nav>
+
+    <div class="user-profile">
+
+      <div class="avatar">👩</div>
+
+      <div>
+        <strong>Sarah Jenkins</strong>
+        <small>Eco Member</small>
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="main-content">
+
+    <header class="page-header">
+
+      <div>
+
+        <span class="eyebrow">
+          PERSONAL WELLNESS
+        </span>
+
+        <h1>
+          Track Activity
+        </h1>
+
+        <p>
+          Keep track of your daily activities and stay active.
+        </p>
+
+      </div>
+
+      <button
+        class="add-button"
+        (click)="openModal()">
+
+        <span>+</span>
+
+        Add Activity
+
+      </button>
+
+    </header>
+
+
+    <!-- SUMMARY -->
+
+    <section class="summary-grid">
+
+      <div class="summary-card">
+
+        <div class="summary-icon">
+          ⏱️
+        </div>
+
+        <div>
+
+          <span>
+            Total Minutes
+          </span>
+
+          <strong>
+            {{ totalMinutes }}
+          </strong>
+
+          <small>
+            Activity time
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <div class="summary-icon fire">
+          🔥
+        </div>
+
+        <div>
+
+          <span>
+            Calories Burned
+          </span>
+
+          <strong>
+            {{ totalCalories }}
+          </strong>
+
+          <small>
+            Total calories
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <div class="summary-icon trophy">
+          🏆
+        </div>
+
+        <div>
+
+          <span>
+            Activities
+          </span>
+
+          <strong>
+            {{ activityCount }}
+          </strong>
+
+          <small>
+            Logged activities
+          </small>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ACTIVITY COMPARISON -->
+
+    <section class="comparison-section">
+
+      <div class="comparison-header">
+
+        <div>
+
+          <h2>
+            Activity Comparison
+          </h2>
+
+          <p>
+            See how your activity compares with last week.
+          </p>
+
+        </div>
+
+        <span
+          class="comparison-badge"
+          [ngClass]="getComparisonClass(activityComparison)">
+
+          {{ getComparisonLabel(activityComparison) }}
+
+        </span>
+
+      </div>
+
+
+      <div class="comparison-grid">
+
+        <div class="comparison-card">
+
+          <span>
+            Today
+          </span>
+
+          <strong>
+            {{ todayActivities }}
+          </strong>
+
+          <small>
+            activities
+          </small>
+
+        </div>
+
+
+        <div class="comparison-card">
+
+          <span>
+            This Week
+          </span>
+
+          <strong>
+            {{ thisWeekActivities }}
+          </strong>
+
+          <small>
+            activities
+          </small>
+
+        </div>
+
+
+        <div class="comparison-card">
+
+          <span>
+            Last Week
+          </span>
+
+          <strong>
+            {{ lastWeekActivities }}
+          </strong>
+
+          <small>
+            activities
+          </small>
+
+        </div>
+
+
+        <div class="comparison-card">
+
+          <span>
+            Minutes This Week
+          </span>
+
+          <strong>
+            {{ thisWeekMinutes }}
+          </strong>
+
+          <small>
+
+            {{ minutesComparison >= 0 ? '+' : '' }}{{ minutesComparison }}%
+
+            vs last week
+
+          </small>
+
+        </div>
+
+
+        <div class="comparison-card">
+
+          <span>
+            Calories This Week
+          </span>
+
+          <strong>
+            {{ thisWeekCalories }}
+          </strong>
+
+          <small>
+
+            {{ caloriesComparison >= 0 ? '+' : '' }}{{ caloriesComparison }}%
+
+            vs last week
+
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <div class="comparison-message">
+
+        {{ comparisonMessage }}
+
+      </div>
+
+    </section>
+
+
+    <!-- ACTIVITIES -->
+
+    <section class="activities-section">
+
+      <div class="section-header">
+
+        <div>
+
+          <h2>
+            Recent Activities
+          </h2>
+
+          <p>
+            Your latest activity records
+          </p>
+
+        </div>
+
+        <span class="activity-count">
+          {{ activityCount }} activities
+        </span>
+
+      </div>
+
+
+      <div
+        class="activity-list"
+        *ngIf="activities.length > 0; else emptyState">
+
+        <div
+          class="activity-card"
+          *ngFor="let activity of activities">
+
+          <div class="activity-type-icon">
+
+            {{ activity.icon }}
+
+          </div>
+
+
+          <div class="activity-details">
+
+            <h3>
+              {{ activity.type }}
+            </h3>
+
+            <span>
+              {{ formatDate(activity.date) }}
+            </span>
+
+          </div>
+
+
+          <div class="activity-stats">
+
+            <div>
+
+              <strong>
+                {{ activity.duration }}
+              </strong>
+
+              <small>
+                min
+              </small>
+
+            </div>
+
+
+            <div *ngIf="activity.distance > 0">
+
+              <strong>
+                {{ activity.distance }}
+              </strong>
+
+              <small>
+                km
+              </small>
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                {{ activity.calories }}
+              </strong>
+
+              <small>
+                kcal
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <button
+            class="delete-button"
+            title="Delete activity"
+            (click)="deleteActivity(activity.id)">
+
+            🗑️
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <ng-template #emptyState>
+
+        <div class="empty-state">
+
+          <div>
+            🌱
+          </div>
+
+          <h3>
+            No activities yet
+          </h3>
+
+          <p>
+            Start tracking your activity to see your progress here.
+          </p>
+
+          <button
+            class="add-button"
+            (click)="openModal()">
+
+            + Add Your First Activity
+
+          </button>
+
+        </div>
+
+      </ng-template>
+
+    </section>
+
+  </main>
+
+
+  <!-- MODAL -->
+
+  <div
+    class="modal-overlay"
+    *ngIf="showModal"
+    (click)="closeModal()">
+
+    <div
+      class="modal"
+      (click)="$event.stopPropagation()">
+
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="eyebrow">
+            NEW RECORD
+          </span>
+
+          <h2>
+            Add Activity
+          </h2>
+
+          <p>
+            Record your latest physical activity.
+          </p>
+
+        </div>
+
+
+        <button
+          class="close-button"
+          (click)="closeModal()">
+
+          ×
+
+        </button>
+
+      </div>
+
+
+      <div class="form-section">
+
+        <label>
+          Activity Type
+        </label>
+
+
+        <div class="activity-types">
+
+          <button
+            type="button"
+            *ngFor="let type of activityTypes"
+            [class.selected]="form.type === type.name"
+            (click)="selectType(type)">
+
+            <span>
+              {{ type.icon }}
+            </span>
+
+            <small>
+              {{ type.name }}
+            </small>
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+
+        <div class="form-group">
+
+          <label for="duration">
+
+            Duration <span>*</span>
+
+          </label>
+
+          <div class="input-with-unit">
+
+            <input
+              id="duration"
+              type="number"
+              min="1"
+              [(ngModel)]="form.duration"
+              placeholder="40">
+
+            <span>
+              min
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="distance">
+
+            Distance
+
+          </label>
+
+          <div class="input-with-unit">
+
+            <input
+              id="distance"
+              type="number"
+              min="0"
+              step="0.1"
+              [(ngModel)]="form.distance"
+              placeholder="5.0">
+
+            <span>
+              km
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="calories">
+
+            Calories <span>*</span>
+
+          </label>
+
+          <div class="input-with-unit">
+
+            <input
+              id="calories"
+              type="number"
+              min="0"
+              [(ngModel)]="form.calories"
+              placeholder="250">
+
+            <span>
+              kcal
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="date">
+
+            Date <span>*</span>
+
+          </label>
+
+          <input
+            id="date"
+            type="date"
+            [(ngModel)]="form.date">
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="closeModal()">
+
+          Cancel
+
+        </button>
+
+
+        <button
+          type="button"
+          class="save-button"
+          [disabled]="
+            !form.duration ||
+            form.duration <= 0 ||
+            form.calories === null ||
+            form.calories < 0 ||
+            !form.date
+          "
+          (click)="saveActivity()">
+
+          Save Activity
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
