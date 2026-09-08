@@ -8,6 +8,12 @@
 
 /* Whole page */
 .page {
+  
+  
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  box-sizing:border-box;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -27,12 +33,15 @@
 
 /* Main login card */
 .login-card {
-  width: 560px;
+  
+  width: 440px;
   max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 0 auto;
 
-  min-height: 735px;
-
-  padding: 32px 42px;
+/* changed */
+  padding: 16px 42px;
 
   background: rgba(255, 255, 255, 0.55);
 
@@ -42,6 +51,7 @@
   text-align: center;
 
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+  box-sizing:border-box;
 }
 
 /* Logo */
@@ -139,17 +149,24 @@
   padding-right: 50px;
 }
 
-.eye {
-  position: absolute;
+.password-box button {
+  position:absolute;
+  right:5px;
+  top:50%;
+  transform:translateY(-50%);
+  width: 40px;
 
-  right: 17px;
-  top: 50%;
+  flex-shrink: 0;
 
-  transform: translateY(-50%);
+  border: none;
 
-  font-size: 16px;
+  background: transparent;
+
   cursor: pointer;
+
+  font-size: 14px;
 }
+
 
 /* Forgot password */
 .forgot {
@@ -215,6 +232,8 @@
 
 /* Google button */
 .google-btn {
+  
+
   width: 100%;
   height: 51px;
 
@@ -267,7 +286,11 @@
 @media (max-width: 600px) {
 
   .page {
-    padding: 10px;
+    min-height: 100vh;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    padding: 6px;
   }
 
   .login-card {
@@ -282,4 +305,13 @@
   .login-card h2 {
     font-size: 31px;
   }
+}
+/*added to adjust the login-card*/
+.login-card h2,.login-card p,.login-card .form-row,.login-card .password-box {
+  margin-top : 4px !important;
+  margin-bottom: 8px !important;
+}
+.login-card button{
+   margin-top : 8px !important;
+  margin-bottom: 8px !important;
 }

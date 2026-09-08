@@ -1,6 +1,9 @@
+import { LandingPage } from './pages/landing-page/landing-page';
 import { ForgotPassword } from './pages/forgot-password/forgot-password';
 import { Routes } from '@angular/router';
-import { Profile } from './profile/profile';
+import { Profile } from './profile/profile';  
+import { Register } from './pages/register/register';
+import { ResetPassword } from './pages/reset-password/reset-password';
 
 import { Dashboard } from './pages/dashboard/dashboard';
 import { TrackActivity } from './track-activity/track-activity';
@@ -10,14 +13,29 @@ import { Login } from './pages/login/login';
 import { Challenges } from './pages/challenges/challenges';
 
 export const routes: Routes = [
+  //=========================
+  //LANDING PAGE
+  //=========================
+  {
+    path: '',
+    component: LandingPage
+  },
 
   // =========================
   // LOGIN
   // =========================
   {
    
-  path: '',
+  path: 'login',
   component: Login
+  },
+
+  //=========================
+  // REGISTRATION
+  //=========================
+  {
+    path: 'register',
+    component: Register
   },
 
   // =========================
@@ -26,6 +44,13 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: Dashboard
+  },
+  //======================
+  //RESET PASSWORD
+  //=======================
+   {
+    path:'reset-password',
+    component:ResetPassword
   },
 
   // =========================
@@ -75,5 +100,6 @@ export const routes: Routes = [
     path: '**',
     redirectTo: ''
   }
+  
 
 ];

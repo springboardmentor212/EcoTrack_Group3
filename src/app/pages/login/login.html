@@ -1,5 +1,5 @@
 
-<div class="page">
+  <div class="page">
 
   <div class="login-card">
 
@@ -34,11 +34,15 @@
 
         <input
           id="password"
-          type="password"
+          [type]="showPassword ? 'text' : 'password'"
           placeholder="Enter your password"
         />
-
-        <span class="eye">👁</span>
+        <button
+          type="button"
+          (click)="togglePassword()"
+        >
+          {{ showPassword ? '🙈' : '👁' }}
+        </button> 
 
       </div>
     </div>
@@ -84,3 +88,4 @@
   </div>
 
 </div>
+

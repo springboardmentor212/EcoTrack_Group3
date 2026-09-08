@@ -9,7 +9,10 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './login.css'
 })
 export class Login {
-
+showPassword=false;
+  togglePassword(){
+    this.showPassword=!this.showPassword;
+  }
   constructor(private router: Router) {}
 
   login() {
