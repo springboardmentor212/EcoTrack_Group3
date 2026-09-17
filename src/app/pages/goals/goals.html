@@ -1,0 +1,281 @@
+<div class="goals-page">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="logo">
+      <span>🌱</span>
+      <div>
+        <h2>EcoTrack</h2>
+        <p>Live Sustainably</p>
+      </div>
+    </div>
+
+    <nav>
+      <a routerLink="/dashboard">
+        <span>▣</span>
+        Dashboard
+      </a>
+
+      <a routerLink="/track-activity">
+        <span>➕</span>
+        Track Activity
+      </a>
+
+      <a routerLink="/carbon-footprint">
+        <span>♻️</span>
+        Carbon Footprint
+      </a>
+
+      <a routerLink="/goals" class="active">
+        <span>🎯</span>
+        Goals
+      </a>
+
+      <a href="javascript:void(0)">
+        <span>🏆</span>
+        Challenges
+      </a>
+
+      <a href="javascript:void(0)">
+        <span>🎁</span>
+        Rewards
+      </a>
+
+      <a href="javascript:void(0)">
+        <span>📊</span>
+        Reports
+      </a>
+
+      <a href="javascript:void(0)">
+        <span>👤</span>
+        Profile
+      </a>
+    </nav>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <header class="page-header">
+
+      <div>
+        <h1>My Goals</h1>
+        <p>Set goals and track your sustainability progress.</p>
+      </div>
+
+      <button class="add-goal-btn" (click)="openAddGoal()">
+        + Add New Goal
+      </button>
+
+    </header>
+
+    <!-- Active Goals -->
+    <section class="goals-section">
+
+      <div class="section-title">
+        <h2>Active Commitments</h2>
+        <span>{{ activeGoals.length }} Active</span>
+      </div>
+
+      <div class="goals-grid">
+
+        <div class="goal-card" *ngFor="let goal of activeGoals">
+
+          <div class="goal-top">
+            <div class="goal-icon">🎯</div>
+
+            <button
+              class="delete-btn"
+              (click)="deleteGoal(goal.id)">
+              ×
+            </button>
+          </div>
+
+          <h3>{{ goal.title }}</h3>
+
+          <p class="goal-target">
+  Target:{{ goal.target }}
+</p>
+
+          <div class="progress-info">
+            <span>Progress</span>
+            <strong>{{ goal.progress }}%</strong>
+          </div>
+
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [style.width.%]="goal.progress">
+            </div>
+          </div>
+
+          <div class="goal-footer">
+
+            <span>
+              Deadline: {{ goal.deadline }}
+            </span>
+
+            <div class="progress-buttons">
+
+              <button
+                (click)="decreaseProgress(goal)">
+                −
+              </button>
+
+              <button
+                (click)="increaseProgress(goal)">
+                +
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        class="empty-state"
+        *ngIf="activeGoals.length === 0">
+
+        <div>🌱</div>
+        <h3>No active goals</h3>
+        <p>Create a goal to start tracking your progress.</p>
+
+      </div>
+
+    </section>
+
+    <!-- Completed Goals -->
+    <section
+      class="goals-section completed-section"
+      *ngIf="completedGoals.length > 0">
+
+      <div class="section-title">
+        <h2>Completed Milestones</h2>
+        <span>{{ completedGoals.length }} Completed</span>
+      </div>
+
+      <div class="completed-list">
+
+        <div
+          class="completed-card"
+          *ngFor="let goal of completedGoals">
+
+          <div class="completed-icon">✓</div>
+
+          <div class="completed-info">
+            <h3>{{ goal.title }}</h3>
+            <p>{{ goal.target }}</p>
+          </div>
+
+          <strong>100%</strong>
+
+          <button
+            class="delete-btn"
+            (click)="deleteGoal(goal.id)">
+            ×
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<!-- Add Goal Modal -->
+<div
+  class="modal-overlay"
+  *ngIf="showAddGoal"
+  (click)="closeAddGoal()">
+
+  <div
+    class="modal"
+    (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+
+      <div>
+        <h2>Add New Goal</h2>
+        <p>Create a sustainability commitment.</p>
+      </div>
+
+      <button
+        class="close-btn"
+        (click)="closeAddGoal()">
+        ×
+      </button>
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Goal Title</label>
+
+      <input
+        type="text"
+        [(ngModel)]="newGoal.title"
+        placeholder="e.g. Reduce plastic usage">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Target</label>
+
+      <input
+        type="text"
+        [(ngModel)]="newGoal.target"
+        placeholder="e.g. 7 days">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Deadline</label>
+
+      <input
+        type="date"
+        [(ngModel)]="newGoal.deadline">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Current Progress (%)</label>
+
+      <input
+        type="number"
+        min="0"
+        max="100"
+        [(ngModel)]="newGoal.progress">
+
+    </div>
+
+    <div class="modal-actions">
+
+      <button
+        class="cancel-btn"
+        (click)="closeAddGoal()">
+        Cancel
+      </button>
+
+      <button
+        class="save-btn"
+        (click)="addGoal()">
+        Save Goal
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

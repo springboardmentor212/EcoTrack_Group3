@@ -1,0 +1,664 @@
+<div class="carbon-page">
+
+  <!-- ================= SIDEBAR ================= -->
+
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">🌿</div>
+      <span>EcoTrack</span>
+    </div>
+
+    <nav class="navigation">
+
+      <a
+        routerLink="/dashboard"
+        class="nav-item">
+
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
+
+      </a>
+
+      <a
+        routerLink="/track-activity"
+        class="nav-item">
+
+        <span class="nav-icon">♧</span>
+        <span>Track Activity</span>
+
+      </a>
+
+      <a
+        routerLink="/carbon-footprint"
+        class="nav-item active">
+
+        <span class="nav-icon">◉</span>
+        <span>Carbon Footprint</span>
+
+      </a>
+
+      <a
+        routerLink="/goals"
+        class="nav-item">
+
+        <span class="nav-icon">◎</span>
+        <span>Goals</span>
+
+      </a>
+
+      <a
+        routerLink="/challenges"
+        class="nav-item">
+
+        <span class="nav-icon">♢</span>
+        <span>Challenges</span>
+
+      </a>
+
+      <a
+        routerLink="/rewards"
+        class="nav-item">
+
+        <span class="nav-icon">◇</span>
+        <span>Rewards</span>
+
+      </a>
+
+      <a class="nav-item">
+
+        <span class="nav-icon">▤</span>
+        <span>Reports</span>
+
+      </a>
+
+      <a class="nav-item">
+
+        <span class="nav-icon">◎</span>
+        <span>Profile</span>
+
+      </a>
+
+    </nav>
+
+    <div class="user-profile">
+
+      <div class="avatar">👩</div>
+
+      <div>
+
+        <strong>Sarah Jenkins</strong>
+
+        <small>Eco Member</small>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ================= MAIN ================= -->
+
+  <main class="main-content">
+
+    <!-- HEADER -->
+
+    <header class="page-header">
+
+      <div>
+
+        <span class="eyebrow">
+          ENVIRONMENTAL IMPACT
+        </span>
+
+        <h1>Carbon Footprint</h1>
+
+        <p>
+          In-depth analysis of your greenhouse gas emissions over time.
+        </p>
+
+      </div>
+
+
+      <!-- PERIOD BUTTONS -->
+
+      <div class="period-selector">
+
+        <button
+          [class.active]="activePeriod === 'Daily'"
+          (click)="changePeriod('Daily')">
+
+          Daily
+
+        </button>
+
+        <button
+          [class.active]="activePeriod === 'Weekly'"
+          (click)="changePeriod('Weekly')">
+
+          Weekly
+
+        </button>
+
+        <button
+          [class.active]="activePeriod === 'Monthly'"
+          (click)="changePeriod('Monthly')">
+
+          Monthly
+
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- ================= TOTAL EMISSIONS ================= -->
+
+    <section class="total-card">
+
+      <div>
+
+        <span class="total-label">
+          TOTAL CUMULATIVE EMISSIONS
+        </span>
+
+        <div class="total-value">
+
+          {{ totalEmissions | number:'1.0-2' }}
+
+          <span>kg CO₂</span>
+
+        </div>
+
+        <p>
+          your recorded footprint
+        </p>
+
+      </div>
+
+
+      <div class="budget-badge">
+
+        ✓ Within Budget Target
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= ANALYTICS GRID ================= -->
+
+    <section class="analytics-grid">
+
+
+      <!-- ================= GRAPH ================= -->
+
+      <div class="card chart-card">
+
+        <div class="card-header">
+
+          <div>
+
+            <h2>Emissions Over Time</h2>
+
+            <span>
+              kg CO₂
+            </span>
+
+          </div>
+
+          <div class="chart-period">
+            {{ activePeriod }}
+          </div>
+
+        </div>
+
+
+        <div class="chart-wrapper">
+
+          <div class="chart">
+
+            <div
+              class="bar-item"
+              *ngFor="
+                let value of chartValues;
+                let i = index
+              ">
+
+              <div class="bar-area">
+
+                <div
+                  class="bar"
+                  [style.height.%]="getBarHeight(value)"
+                  [title]="value + ' kg CO₂'">
+
+                </div>
+
+              </div>
+
+              <span class="bar-label">
+
+                {{ chartLabels[i] }}
+
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- EMPTY GRAPH -->
+
+        <div
+          class="chart-empty"
+          *ngIf="totalEmissions === 0">
+
+          🌱
+
+          <span>
+            Add carbon activities to see your emissions graph.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================= CATEGORY ================= -->
+
+      <div class="card category-card">
+
+        <div class="card-header">
+
+          <div>
+
+            <h2>Category Breakdown</h2>
+
+            <span>
+              Emissions by activity
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="category-list"
+          *ngIf="categoryData.length > 0; else noCategories">
+
+
+          <div
+            class="category-row"
+            *ngFor="let category of categoryData">
+
+            <div class="category-title">
+
+              <span>
+                {{ category.icon }}
+              </span>
+
+              <strong>
+                {{ category.name }}
+              </strong>
+
+              <small>
+                {{ category.value | number:'1.0-2' }} kg
+              </small>
+
+            </div>
+
+
+            <div class="category-progress">
+
+              <div
+                class="category-progress-fill"
+                [style.width.%]="category.percentage">
+              </div>
+
+            </div>
+
+
+            <span class="percentage">
+
+              {{ category.percentage }}%
+
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+        <ng-template #noCategories>
+
+          <div class="no-categories">
+
+            <div>🌱</div>
+
+            <strong>No data yet</strong>
+
+            <span>
+              Add your first carbon activity.
+            </span>
+
+          </div>
+
+        </ng-template>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= ADD ACTIVITY ================= -->
+
+    <section class="card add-card">
+
+      <div class="add-header">
+
+        <div>
+
+          <span class="eyebrow">
+            NEW RECORD
+          </span>
+
+          <h2>
+            Add Carbon Activity
+          </h2>
+
+          <p>
+            Enter your activity usage to estimate emissions.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+
+        <!-- CATEGORY -->
+
+        <div class="form-group">
+
+          <label>
+            Activity Category
+          </label>
+
+          <select
+            [(ngModel)]="activityType">
+
+            <option value="">
+              Select an activity
+            </option>
+
+            <option
+              *ngFor="let type of activityTypes"
+              [value]="type.name">
+
+              {{ type.icon }}
+              {{ type.name }}
+
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- AMOUNT -->
+
+        <div class="form-group">
+
+          <label>
+            Amount / Usage
+          </label>
+
+          <input
+            type="number"
+            min="0"
+            step="0.1"
+            [(ngModel)]="amount"
+            placeholder="Enter amount">
+
+        </div>
+
+
+        <!-- DATE -->
+
+        <div class="form-group">
+
+          <label>
+            Date
+          </label>
+
+          <input
+            type="date"
+            [(ngModel)]="activityDate">
+
+        </div>
+
+
+      </div>
+
+
+      <button
+        class="calculate-btn"
+        (click)="calculateCarbon()">
+
+        🌱 Calculate & Save Footprint
+
+      </button>
+
+
+      <!-- MESSAGE -->
+
+      <div
+        class="message"
+        *ngIf="message">
+
+        {{ message }}
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= HISTORY ================= -->
+
+    <section class="card history-card">
+
+      <div class="section-header">
+
+        <div>
+
+          <span class="eyebrow">
+            RECORDS
+          </span>
+
+          <h2>
+            Carbon Activity History
+          </h2>
+
+          <p>
+            Your recently recorded carbon activities.
+          </p>
+
+        </div>
+
+        <span class="record-count">
+
+          {{ records.length }} records
+
+        </span>
+
+      </div>
+
+
+      <!-- RECORD LIST -->
+
+      <div
+        class="record-list"
+        *ngIf="
+          records.length > 0;
+          else emptyRecords
+        ">
+
+
+        <div
+          class="record"
+          *ngFor="let record of records">
+
+
+          <div class="record-icon">
+
+            {{ record.icon }}
+
+          </div>
+
+
+          <div class="record-info">
+
+            <strong>
+
+              {{ record.category }}
+
+            </strong>
+
+            <small>
+
+              {{ formatDate(record.date) }}
+
+            </small>
+
+          </div>
+
+
+          <div class="record-amount">
+
+            <strong>
+
+              {{ record.amount | number:'1.0-2' }}
+
+            </strong>
+
+            <small>
+              usage
+            </small>
+
+          </div>
+
+
+          <div class="record-emission">
+
+            <strong>
+
+              {{ record.emission | number:'1.0-2' }}
+
+              kg CO₂
+
+            </strong>
+
+            <small>
+              estimated emission
+            </small>
+
+          </div>
+
+
+          <button
+            class="delete-button"
+            title="Delete record"
+            (click)="deleteRecord(record.id)">
+
+            🗑️
+
+          </button>
+
+
+        </div>
+
+
+      </div>
+
+
+      <!-- EMPTY -->
+
+      <ng-template #emptyRecords>
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            🌱
+          </div>
+
+          <h3>
+            No carbon records yet
+          </h3>
+
+          <p>
+            Add your first activity above to start tracking your footprint.
+          </p>
+
+        </div>
+
+      </ng-template>
+
+    </section>
+
+
+    <!-- ================= SUPPORTED ACTIVITIES ================= -->
+
+    <section class="supported-section">
+
+      <div class="section-heading">
+
+        <span class="eyebrow">
+          ECO TRACKING
+        </span>
+
+        <h2>
+          Supported Activities
+        </h2>
+
+      </div>
+
+
+      <div class="supported-grid">
+
+        <div
+          class="supported-card"
+          *ngFor="let type of activityTypes">
+
+          <div class="supported-icon">
+
+            {{ type.icon }}
+
+          </div>
+
+          <h3>
+
+            {{ type.name }}
+
+          </h3>
+
+          <span>
+            Emission tracking
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
