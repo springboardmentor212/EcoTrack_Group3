@@ -7,9 +7,6 @@ const { connectDB, disconnectDB } = require("./config/db");
 
 dotenv.config();
 
-// Connect to MongoDB
-connectDB();
-
 const app = express();
 
 // Middleware
@@ -24,13 +21,26 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// Test route
+// Health and test routes
 app.get("/", (req, res) => {
   res.json({
     message: "EcoTrack Backend is running",
     version: "1.0.0",
   });
 });
+
+app.get("/api/health", async (req, res) => {
+  res.json({
+    success: true,
+    database:
+      mongooseConnectionState() === 1 ? "connected" : "disconnected",
+  });
+});
+
+function mongooseConnectionState() {
+  const mongoose = require("mongoose");
+  return mongoose.connection.readyState;
+}
 
 // API Routes
 app.use("/api/auth", require("./routes/authRoutes"));
@@ -58,18 +68,46 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+let server = null;
 
-const server = app.listen(PORT, () => {
-  console.log(`🌱 EcoTrack backend running on port ${PORT}`);
-  console.log(`   Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`   API URL: http://localhost:${PORT}/api`);
-});
-
-// Graceful shutdown
-process.on("SIGINT", async () => {
-  console.log("\n Shutting down gracefully...");
+const shutdown = async () => {
   await disconnectDB();
-  server.close();
-  process.exit(0);
-});
+  if (server) {
+    await new Promise((resolve) => server.close(resolve));
+    server = null;
+  }
+};
+
+const startServer = async () => {
+  await connectDB();
+
+  const configuredPort = Number(process.env.PORT);
+  const port = Number.isFinite(configuredPort) && configuredPort >= 0
+    ? configuredPort
+    : 5000;
+  server = app.listen(port, () => {
+    console.log(`🌱 EcoTrack backend running on port ${port}`);
+    console.log(`   Environment: ${process.env.NODE_ENV || "development"}`);
+    console.log(`   API URL: http://localhost:${port}/api`);
+  });
+
+  return { app, server, shutdown };
+};
+
+if (require.main === module) {
+  startServer().catch((error) => {
+    console.error("Failed to start EcoTrack backend:", error);
+    process.exit(1);
+  });
+
+  const handleShutdown = async () => {
+    console.log("\n Shutting down gracefully...");
+    await shutdown();
+    process.exit(0);
+  };
+
+  process.once("SIGINT", handleShutdown);
+  process.once("SIGTERM", handleShutdown);
+}
+
+module.exports = { app, startServer, shutdown };

@@ -1,4 +1,5 @@
 const CarbonRecord = require("../models/CarbonRecord");
+const { toFiniteNumber, sendModelError } = require("../utils/api");
 
 // @desc    Get all carbon records for logged-in user
 // @route   GET /api/carbon-records
@@ -26,19 +27,32 @@ exports.getCarbonRecords = async (req, res) => {
 exports.createCarbonRecord = async (req, res) => {
   try {
     const { category, icon, amount, emission, date } = req.body;
+    const parsedAmount = toFiniteNumber(amount);
+    const parsedEmission = toFiniteNumber(emission);
 
-    // Validate input
-    if (!category || amount === undefined || emission === undefined || !date) {
+    if (
+      !category ||
+      parsedAmount === null ||
+      parsedEmission === null ||
+      !date
+    ) {
       return res.status(400).json({
         success: false,
         message: "Please provide category, amount, emission, and date",
       });
     }
 
-    if (amount < 0 || emission < 0) {
+    if (parsedAmount <= 0 || parsedEmission < 0) {
       return res.status(400).json({
         success: false,
-        message: "Amount and emission cannot be negative",
+        message: "Amount must be greater than zero and emission cannot be negative",
+      });
+    }
+
+    if (Number.isNaN(Date.parse(date))) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid record date",
       });
     }
 
@@ -46,8 +60,8 @@ exports.createCarbonRecord = async (req, res) => {
       userId: req.user._id,
       category,
       icon: icon || "🌱",
-      amount: Number(amount),
-      emission: Number(emission),
+      amount: parsedAmount,
+      emission: parsedEmission,
       date,
     });
 
@@ -56,11 +70,7 @@ exports.createCarbonRecord = async (req, res) => {
       data: record,
     });
   } catch (error) {
-    console.error("Create carbon record error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    return sendModelError(res, error, "Server error while creating carbon record");
   }
 };
 
@@ -92,10 +102,6 @@ exports.deleteCarbonRecord = async (req, res) => {
       message: "Carbon record deleted successfully",
     });
   } catch (error) {
-    console.error("Delete carbon record error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    return sendModelError(res, error, "Server error while deleting carbon record");
   }
 };

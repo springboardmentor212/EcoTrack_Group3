@@ -1,5 +1,6 @@
 const Challenge = require("../models/Challenge");
 const User = require("../models/User");
+const { toFiniteNumber, sendModelError } = require("../utils/api");
 
 // @desc    Get all challenges for logged-in user
 // @route   GET /api/challenges
@@ -28,22 +29,31 @@ exports.getChallenges = async (req, res) => {
 exports.createChallenge = async (req, res) => {
   try {
     const { title, description, type, target, unit, points, endDate } = req.body;
+    const parsedTarget = toFiniteNumber(target);
+    const parsedPoints = points === undefined ? 10 : toFiniteNumber(points);
 
-    if (!title || target === undefined) {
+    if (!String(title || "").trim() || parsedTarget === null) {
       return res.status(400).json({
         success: false,
         message: "Please provide title and target",
       });
     }
 
+    if (parsedTarget < 0 || parsedPoints === null || parsedPoints < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Target and points cannot be negative",
+      });
+    }
+
     const challenge = await Challenge.create({
       userId: req.user._id,
-      title,
+      title: String(title).trim(),
       description: description || "",
       type: type || "steps",
-      target: Number(target),
+      target: parsedTarget,
       unit: unit || "steps",
-      points: Number(points) || 10,
+      points: parsedPoints,
       progress: 0,
       completed: false,
       endDate: endDate || null,
@@ -54,11 +64,7 @@ exports.createChallenge = async (req, res) => {
       data: challenge,
     });
   } catch (error) {
-    console.error("Create challenge error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    return sendModelError(res, error, "Server error while creating challenge");
   }
 };
 
@@ -67,8 +73,23 @@ exports.createChallenge = async (req, res) => {
 exports.updateChallenge = async (req, res) => {
   try {
     const { progress, completed } = req.body;
+    const parsedProgress = progress === undefined ? null : toFiniteNumber(progress);
 
-    let challenge = await Challenge.findById(req.params.id);
+    if (parsedProgress !== null && parsedProgress < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Progress cannot be negative",
+      });
+    }
+
+    if (completed !== undefined && typeof completed !== "boolean") {
+      return res.status(400).json({
+        success: false,
+        message: "Completed must be a boolean",
+      });
+    }
+
+    const challenge = await Challenge.findById(req.params.id);
 
     if (!challenge) {
       return res.status(404).json({
@@ -85,41 +106,39 @@ exports.updateChallenge = async (req, res) => {
       });
     }
 
+    const wasCompleted = challenge.completed;
     const updateFields = {};
-    if (progress !== undefined) {
-      updateFields.progress = Number(progress);
-      updateFields.completed = Number(progress) >= challenge.target;
+    if (parsedProgress !== null) {
+      updateFields.progress = parsedProgress;
+      updateFields.completed = parsedProgress >= challenge.target;
     }
 
     if (completed !== undefined) {
       updateFields.completed = completed;
     }
 
-    challenge = await Challenge.findByIdAndUpdate(
+    const updatedChallenge = await Challenge.findByIdAndUpdate(
       req.params.id,
       updateFields,
-      { new: true, runValidators: true }
+      { returnDocument: "after", runValidators: true }
     );
 
-    // If challenge completed, award points to user
-    if (challenge.completed) {
-      const user = await User.findById(req.user._id);
-      if (user) {
-        user.totalPoints += challenge.points;
-        await user.save();
-      }
+    const user = await User.findById(req.user._id);
+    if (user && updatedChallenge.completed !== wasCompleted) {
+      user.totalPoints = Math.max(
+        0,
+        user.totalPoints +
+          (updatedChallenge.completed ? updatedChallenge.points : -updatedChallenge.points)
+      );
+      await user.save();
     }
 
     res.json({
       success: true,
-      data: challenge,
+      data: updatedChallenge,
     });
   } catch (error) {
-    console.error("Update challenge error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    return sendModelError(res, error, "Server error while updating challenge");
   }
 };
 
@@ -151,10 +170,6 @@ exports.deleteChallenge = async (req, res) => {
       message: "Challenge deleted successfully",
     });
   } catch (error) {
-    console.error("Delete challenge error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    return sendModelError(res, error, "Server error while deleting challenge");
   }
 };

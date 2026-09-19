@@ -1,0 +1,32 @@
+
+.landing-page{
+    min-height:100vh;
+    background:linear-gradient(rgba(255,255,255,0.07)),url('/Background.jpeg') center/cover;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    
+}
+.content{
+    width:70%;
+}
+h1{
+    color:rgb(22, 51, 22);
+    font-size:48px;
+}
+p{
+    color:rgb(17, 32, 17);
+    font-size:20px;
+}
+button{
+    background:#084f0b;
+    color: white;
+    padding: 12px 25px;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+}

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
 const userSchema = new mongoose.Schema(
   {
@@ -22,6 +23,12 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required"],
       minlength: [6, "Password must be at least 6 characters"],
       select: false,
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
     },
     avatar: {
       type: String,
@@ -46,6 +53,14 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    resetPasswordToken: {
+      type: String,
+      select: false,
+    },
+    resetPasswordExpires: {
+      type: Date,
+      select: false,
+    },
   },
   {
     timestamps: true,
@@ -65,6 +80,19 @@ userSchema.pre("save", async function () {
 // Method to compare passwords
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
+};
+
+// Create a hashed reset token and store only its hash.
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  this.resetPasswordExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 // Method to update activity streak

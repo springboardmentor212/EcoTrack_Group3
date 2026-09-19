@@ -7,6 +7,7 @@ const {
   getProfile,
   updateProfile,
   forgotPassword,
+  resetPassword,
   googleAuth,
 } = require("../controllers/authController");
 
@@ -15,6 +16,7 @@ router.post("/register", register);
 router.post("/login", login);
 router.post("/google", googleAuth);
 router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
 
 // Protected routes
 router.get("/profile", auth, getProfile);

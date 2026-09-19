@@ -1,17 +1,26 @@
 const mongoose = require("mongoose");
-const { MongoMemoryServer } = require("mongodb-memory-server");
 
 let mongoServer = null;
 
 const connectDB = async () => {
+  if (mongoose.connection.readyState === 1) {
+    return;
+  }
+
   try {
     const useInMemory = process.env.USE_IN_MEMORY_DB === "true";
-    const mongoUri = process.env.MONGO_URI;
+    const mongoUri = process.env.MONGO_URI?.trim();
+    const isProduction = process.env.NODE_ENV === "production";
+
+    if (isProduction && !mongoUri) {
+      throw new Error("MONGO_URI is required when NODE_ENV=production");
+    }
 
     let uri;
 
     if (useInMemory || !mongoUri) {
-      // Use in-memory MongoDB for development
+      // Load the test-only package only when the in-memory fallback is used.
+      const { MongoMemoryServer } = require("mongodb-memory-server");
       mongoServer = await MongoMemoryServer.create();
       uri = mongoServer.getUri();
       console.log("📦 Using in-memory MongoDB");
@@ -27,7 +36,7 @@ const connectDB = async () => {
     console.log(`   Mode: ${useInMemory ? "In-Memory" : "Persistent"}`);
   } catch (error) {
     console.error("❌ MongoDB connection failed:", error.message);
-    process.exit(1);
+    throw error;
   }
 };
 
@@ -35,6 +44,7 @@ const disconnectDB = async () => {
   await mongoose.disconnect();
   if (mongoServer) {
     await mongoServer.stop();
+    mongoServer = null;
     console.log("📦 In-memory MongoDB stopped");
   }
 };

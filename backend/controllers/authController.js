@@ -1,6 +1,9 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const User = require("../models/User");
+
+const EMAIL_PATTERN = /^\S+@\S+\.\S+$/;
 
 // Generate JWT token
 const generateToken = (id) => {
@@ -9,7 +12,7 @@ const generateToken = (id) => {
   });
 };
 
-// Format user response (remove password)
+// Format user response (remove password and private reset fields)
 const formatUser = (user) => {
   const userObj = user.toObject();
   return {
@@ -26,17 +29,40 @@ const formatUser = (user) => {
   };
 };
 
+const normalizeEmail = (email) => String(email || "").trim().toLowerCase();
+
+const isValidationError = (error) => error?.name === "ValidationError";
+
+const sendValidationError = (res, error) => {
+  const message = Object.values(error.errors || {})
+    .map((fieldError) => fieldError.message)
+    .join(", ");
+
+  return res.status(400).json({
+    success: false,
+    message: message || "Please check the submitted data",
+  });
+};
+
 // @desc    Register a new user
 // @route   POST /api/auth/register
 exports.register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const name = String(req.body.name || "").trim();
+    const email = normalizeEmail(req.body.email);
+    const password = String(req.body.password || "");
 
-    // Validate input
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
         message: "Please provide name, email, and password",
+      });
+    }
+
+    if (!EMAIL_PATTERN.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid email address",
       });
     }
 
@@ -47,7 +73,6 @@ exports.register = async (req, res) => {
       });
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -56,18 +81,9 @@ exports.register = async (req, res) => {
       });
     }
 
-    // Set initial streak data before saving
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    // Create new user with initial streak
-    const user = await User.create({
-      name,
-      email,
-      password,
-      currentStreak: 1,
-      lastActiveDate: today,
-    });
+    const user = await User.create({ name, email, password });
+    await user.updateStreak();
+    await user.save();
 
     res.status(201).json({
       success: true,
@@ -75,11 +91,21 @@ exports.register = async (req, res) => {
       user: formatUser(user),
     });
   } catch (error) {
-    console.error("Register error:", error.message, error.stack);
+    if (error?.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "User already exists with this email",
+      });
+    }
+
+    if (isValidationError(error)) {
+      return sendValidationError(res, error);
+    }
+
+    console.error("Register error:", error);
     res.status(500).json({
       success: false,
       message: "Server error during registration",
-      error: process.env.NODE_ENV === "development" ? error.message : undefined,
     });
   }
 };
@@ -88,9 +114,9 @@ exports.register = async (req, res) => {
 // @route   POST /api/auth/login
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const email = normalizeEmail(req.body.email);
+    const password = String(req.body.password || "");
 
-    // Validate input
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -98,7 +124,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Find user and include password
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return res.status(400).json({
@@ -107,7 +132,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Check password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({
@@ -116,7 +140,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Update streak on login
     await user.updateStreak();
     await user.save();
 
@@ -163,14 +186,27 @@ exports.getProfile = async (req, res) => {
 // @route   PUT /api/auth/profile
 exports.updateProfile = async (req, res) => {
   try {
-    const { name, avatar } = req.body;
-
     const updateFields = {};
-    if (name) updateFields.name = name;
-    if (avatar !== undefined) updateFields.avatar = avatar;
+    const name = req.body.name;
+    const avatar = req.body.avatar;
+
+    if (name !== undefined) {
+      const trimmedName = String(name).trim();
+      if (!trimmedName) {
+        return res.status(400).json({
+          success: false,
+          message: "Name cannot be empty",
+        });
+      }
+      updateFields.name = trimmedName;
+    }
+
+    if (avatar !== undefined) {
+      updateFields.avatar = String(avatar);
+    }
 
     const user = await User.findByIdAndUpdate(req.user._id, updateFields, {
-      new: true,
+      returnDocument: "after",
       runValidators: true,
     }).select("-password");
 
@@ -186,6 +222,10 @@ exports.updateProfile = async (req, res) => {
       user: formatUser(user),
     });
   } catch (error) {
+    if (isValidationError(error)) {
+      return sendValidationError(res, error);
+    }
+
     console.error("Update profile error:", error);
     res.status(500).json({
       success: false,
@@ -194,16 +234,18 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-// @desc    Forgot password
+// @desc    Request a password reset
 // @route   POST /api/auth/forgot-password
 exports.forgotPassword = async (req, res) => {
   try {
-    const { email } = req.body;
+    const email = normalizeEmail(req.body.email);
+    const genericMessage =
+      "If that email exists, a reset link has been sent";
 
-    if (!email) {
+    if (!email || !EMAIL_PATTERN.test(email)) {
       return res.status(400).json({
         success: false,
-        message: "Please provide an email",
+        message: "Please provide a valid email address",
       });
     }
 
@@ -211,18 +253,87 @@ exports.forgotPassword = async (req, res) => {
     if (!user) {
       return res.status(200).json({
         success: true,
-        message: "If that email exists, a reset link has been sent",
+        message: genericMessage,
       });
     }
 
-    // In a real app, generate reset token and send email
-    // For now, just return success
-    res.json({
+    const resetToken = user.createPasswordResetToken();
+    await user.save({ validateBeforeSave: false });
+
+    const response = {
       success: true,
-      message: "If that email exists, a reset link has been sent",
-    });
+      message: genericMessage,
+    };
+
+    // No email provider is configured in this repository. Expose the token
+    // only in non-production environments so the flow can be tested locally.
+    if (process.env.NODE_ENV !== "production") {
+      response.resetToken = resetToken;
+    }
+
+    res.json(response);
   } catch (error) {
     console.error("Forgot password error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+// @desc    Reset password using a token from forgot-password
+// @route   POST /api/auth/reset-password
+exports.resetPassword = async (req, res) => {
+  try {
+    const token = String(req.body.token || "");
+    const password = String(req.body.password || "");
+
+    if (!token || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a reset token and new password",
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters",
+      });
+    }
+
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpires: { $gt: Date.now() },
+    }).select("+resetPasswordToken +resetPasswordExpires +password");
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Password reset token is invalid or has expired",
+      });
+    }
+
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "Password has been reset successfully",
+    });
+  } catch (error) {
+    if (isValidationError(error)) {
+      return sendValidationError(res, error);
+    }
+
+    console.error("Reset password error:", error);
     res.status(500).json({
       success: false,
       message: "Server error",
@@ -234,19 +345,33 @@ exports.forgotPassword = async (req, res) => {
 // @route   POST /api/auth/google
 exports.googleAuth = async (req, res) => {
   try {
-    const { email, name, googleId } = req.body;
+    const email = normalizeEmail(req.body.email);
+    const name = String(req.body.name || "").trim();
+    const googleId = String(req.body.googleId || "").trim();
 
-    if (!email) {
+    if (!email || !EMAIL_PATTERN.test(email)) {
       return res.status(400).json({
         success: false,
-        message: "Email is required",
+        message: "Please provide a valid email address",
       });
     }
 
-    let user = await User.findOne({ email });
+    if (!googleId) {
+      return res.status(400).json({
+        success: false,
+        message: "Google ID is required",
+      });
+    }
+
+    let user = await User.findOne({ googleId });
+    if (!user) {
+      user = await User.findOne({ email });
+    }
 
     if (user) {
-      // Update streak
+      if (!user.googleId) {
+        user.googleId = googleId;
+      }
       await user.updateStreak();
       await user.save();
 
@@ -257,12 +382,12 @@ exports.googleAuth = async (req, res) => {
       });
     }
 
-    // Create new user from Google
-    const dummyPassword = googleId + Math.random().toString(36).slice(2);
+    const dummyPassword = `${googleId}-${crypto.randomBytes(16).toString("hex")}`;
     user = await User.create({
       name: name || "Google User",
       email,
       password: dummyPassword,
+      googleId,
     });
 
     await user.updateStreak();
@@ -274,6 +399,17 @@ exports.googleAuth = async (req, res) => {
       user: formatUser(user),
     });
   } catch (error) {
+    if (error?.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "Google account is already linked to another user",
+      });
+    }
+
+    if (isValidationError(error)) {
+      return sendValidationError(res, error);
+    }
+
     console.error("Google auth error:", error);
     res.status(500).json({
       success: false,

@@ -1,4 +1,5 @@
 const Activity = require("../models/Activity");
+const { toFiniteNumber, sendModelError } = require("../utils/api");
 
 // @desc    Get all activities for logged-in user
 // @route   GET /api/activities
@@ -26,19 +27,34 @@ exports.getActivities = async (req, res) => {
 exports.createActivity = async (req, res) => {
   try {
     const { type, icon, duration, distance, calories, date } = req.body;
+    const parsedDuration = toFiniteNumber(duration);
+    const parsedDistance = distance === undefined ? 0 : toFiniteNumber(distance);
+    const parsedCalories = toFiniteNumber(calories);
 
-    // Validate input
-    if (!type || duration === undefined || calories === undefined || !date) {
+    if (
+      !type ||
+      parsedDuration === null ||
+      parsedCalories === null ||
+      parsedDistance === null ||
+      !date
+    ) {
       return res.status(400).json({
         success: false,
-        message: "Please provide type, duration, calories, and date",
+        message: "Please provide valid type, duration, calories, and date",
       });
     }
 
-    if (duration < 0 || calories < 0) {
+    if (parsedDuration < 0 || parsedCalories < 0 || parsedDistance < 0) {
       return res.status(400).json({
         success: false,
-        message: "Duration and calories cannot be negative",
+        message: "Duration, distance, and calories cannot be negative",
+      });
+    }
+
+    if (Number.isNaN(Date.parse(date))) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid activity date",
       });
     }
 
@@ -46,9 +62,9 @@ exports.createActivity = async (req, res) => {
       userId: req.user._id,
       type,
       icon: icon || "🏃",
-      duration: Number(duration),
-      distance: Number(distance) || 0,
-      calories: Number(calories),
+      duration: parsedDuration,
+      distance: parsedDistance,
+      calories: parsedCalories,
       date,
     });
 
@@ -57,11 +73,7 @@ exports.createActivity = async (req, res) => {
       data: activity,
     });
   } catch (error) {
-    console.error("Create activity error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    return sendModelError(res, error, "Server error while creating activity");
   }
 };
 
@@ -93,10 +105,6 @@ exports.deleteActivity = async (req, res) => {
       message: "Activity deleted successfully",
     });
   } catch (error) {
-    console.error("Delete activity error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    return sendModelError(res, error, "Server error while deleting activity");
   }
 };
