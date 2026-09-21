@@ -16,7 +16,6 @@
       Track • Reduce • Sustain
     </p>
 
-
     <!-- TITLE -->
     <h2>
       Welcome Back!
@@ -25,7 +24,6 @@
     <p class="subtitle">
       Login to continue your EcoTrack journey.
     </p>
-
 
     <!-- EMAIL -->
     <div class="form-group">
@@ -42,7 +40,6 @@
       >
 
     </div>
-
 
     <!-- PASSWORD -->
     <div class="form-group">
@@ -71,7 +68,6 @@
 
     </div>
 
-
     <!-- FORGOT PASSWORD -->
     <div class="forgot">
 
@@ -81,43 +77,14 @@
 
     </div>
 
-
     <!-- LOGIN -->
     <button
       type="button"
       class="login-btn"
-      (click)="login(email, password)"
+      (click)="login(email.value, password.value)"
     >
       Login
     </button>
-
-
-    <!-- OR -->
-    <div class="divider">
-
-      <div></div>
-
-      <span>OR</span>
-
-      <div></div>
-
-    </div>
-
-
-    <!-- GOOGLE -->
-    <button
-      type="button"
-      class="google-btn"
-    >
-
-      <span class="google-icon">
-        G
-      </span>
-
-      Continue with Google
-
-    </button>
-
 
     <!-- REGISTER -->
     <p class="register">

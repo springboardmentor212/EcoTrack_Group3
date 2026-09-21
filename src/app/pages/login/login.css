@@ -1,3 +1,7 @@
+/* =========================================
+   GLOBAL BOX SIZING
+   ========================================= */
+
 * {
   box-sizing: border-box;
 }
@@ -9,14 +13,13 @@
 
 
 /* =========================================
-   WHOLE PAGE
+   WHOLE LOGIN PAGE
    ========================================= */
 
 .page {
-  height: 100vh;
-  width: 100vw;
 
-  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 
   min-height: 100vh;
 
@@ -27,17 +30,19 @@
 
   padding: 6px;
 
-  background:
-    linear-gradient(
-      135deg,
-      #eef5f0,
-      #f5f3ef
-    );
+  /*
+   * IMPORTANT:
+   * The background comes from styles.css.
+   * Do NOT put another background here.
+   */
+  background: transparent;
 
   font-family:
     Georgia,
     "Times New Roman",
     serif;
+
+  overflow: hidden;
 }
 
 
@@ -46,38 +51,48 @@
    ========================================= */
 
 .login-card {
+
   width: 440px;
 
   max-width: 100%;
-
-  box-sizing: border-box;
-
-  overflow: hidden;
 
   margin: 0 auto;
 
   padding: 16px 42px;
 
+  box-sizing: border-box;
+
+  /*
+   * Slightly transparent white card
+   * so the background can subtly show through.
+   */
   background:
-    rgba(255, 255, 255, 0.55);
+    rgba(255, 255, 255, 0.72);
 
   border:
-    1px solid #cfd4d1;
+    1px solid rgba(207, 212, 209, 0.90);
 
   border-radius: 30px;
 
   text-align: center;
 
   box-shadow:
-    0 8px 25px rgba(0, 0, 0, 0.05);
+    0 12px 35px rgba(35, 80, 55, 0.10);
+
+  backdrop-filter: blur(8px);
+
+  -webkit-backdrop-filter: blur(8px);
+
+  overflow: hidden;
 }
 
 
 /* =========================================
-   LOGO
+   LOGO ICON
    ========================================= */
 
 .logo-icon {
+
   font-size: 34px;
 
   margin-bottom: 0;
@@ -85,10 +100,11 @@
 
 
 /* =========================================
-   ECOTRACK
+   ECOTRACK TITLE
    ========================================= */
 
 .logo-title {
+
   margin: 0;
 
   font-size: 42px;
@@ -100,6 +116,7 @@
 
 
 .logo-title span {
+
   color: #1f7a39;
 }
 
@@ -109,6 +126,7 @@
    ========================================= */
 
 .tagline {
+
   margin: 0;
 
   margin-top: 0;
@@ -122,10 +140,11 @@
 
 
 /* =========================================
-   WELCOME
+   WELCOME BACK
    ========================================= */
 
 .login-card h2 {
+
   margin-top: 26px;
 
   margin-bottom: 6px;
@@ -136,7 +155,12 @@
 }
 
 
+/* =========================================
+   SUBTITLE
+   ========================================= */
+
 .subtitle {
+
   margin-top: 0;
 
   margin-bottom: 28px;
@@ -148,17 +172,23 @@
 
 
 /* =========================================
-   FORM
+   FORM GROUP
    ========================================= */
 
 .form-group {
+
   text-align: left;
 
   margin-bottom: 18px;
 }
 
 
+/* =========================================
+   FORM LABEL
+   ========================================= */
+
 .form-group label {
+
   display: block;
 
   margin-bottom: 8px;
@@ -176,10 +206,11 @@
 
 
 /* =========================================
-   INPUT
+   TEXT / EMAIL / PASSWORD INPUT
    ========================================= */
 
 .form-group input {
+
   width: 100%;
 
   height: 53px;
@@ -192,7 +223,7 @@
   border-radius: 14px;
 
   background:
-    rgba(255, 255, 255, 0.45);
+    rgba(255, 255, 255, 0.70);
 
   font-size: 17px;
 
@@ -200,33 +231,59 @@
 }
 
 
+/* =========================================
+   INPUT PLACEHOLDER
+   ========================================= */
+
 .form-group input::placeholder {
+
   color: #6d7680;
 }
 
 
+/* =========================================
+   INPUT FOCUS
+   ========================================= */
+
 .form-group input:focus {
+
   outline: none;
 
   border-color: #2c7a3f;
+
+  box-shadow:
+    0 0 0 3px rgba(44, 122, 63, 0.08);
 }
 
 
 /* =========================================
-   PASSWORD
+   PASSWORD BOX
    ========================================= */
 
 .password-box {
+
   position: relative;
+
+  width: 100%;
 }
 
 
+/* =========================================
+   PASSWORD INPUT
+   ========================================= */
+
 .password-box input {
+
   padding-right: 50px;
 }
 
 
+/* =========================================
+   PASSWORD EYE BUTTON
+   ========================================= */
+
 .password-box button {
+
   position: absolute;
 
   right: 5px;
@@ -251,10 +308,55 @@
 
 
 /* =========================================
+   PASSWORD VALIDATION ERRORS
+   ========================================= */
+
+.password-errors {
+
+  text-align: left;
+
+  margin-top: 6px;
+
+  color: #d93025;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   EMAIL ERROR
+   ========================================= */
+
+.email-error {
+
+  text-align: left;
+
+  margin-top: 6px;
+
+  color: #d93025;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================
    FORGOT PASSWORD
    ========================================= */
 
 .forgot {
+
   text-align: right;
 
   margin-top: -2px;
@@ -262,6 +364,7 @@
 
 
 .forgot a {
+
   font-family:
     Arial,
     sans-serif;
@@ -273,6 +376,14 @@
   font-weight: 600;
 
   text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+
+.forgot a:hover {
+
+  color: #164d28;
 }
 
 
@@ -281,6 +392,7 @@
    ========================================= */
 
 .login-btn {
+
   width: 100%;
 
   height: 56px;
@@ -300,11 +412,26 @@
   font-weight: 700;
 
   cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
 }
 
 
 .login-btn:hover {
+
   background: #186525;
+
+  box-shadow:
+    0 5px 14px rgba(31, 122, 46, 0.20);
+}
+
+
+.login-btn:active {
+
+  transform: scale(0.98);
 }
 
 
@@ -313,6 +440,7 @@
    ========================================= */
 
 .divider {
+
   display: flex;
 
   align-items: center;
@@ -324,6 +452,7 @@
 
 
 .divider div {
+
   flex: 1;
 
   height: 1px;
@@ -333,6 +462,7 @@
 
 
 .divider span {
+
   font-weight: 600;
 
   color: #5d6570;
@@ -344,6 +474,7 @@
    ========================================= */
 
 .google-btn {
+
   width: 100%;
 
   height: 51px;
@@ -353,7 +484,7 @@
 
   border-radius: 12px;
 
-  background: transparent;
+  background: rgba(255, 255, 255, 0.55);
 
   color: #2f3d4b;
 
@@ -362,10 +493,28 @@
   font-weight: 600;
 
   cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 
+.google-btn:hover {
+
+  background: rgba(255, 255, 255, 0.85);
+
+  box-shadow:
+    0 4px 12px rgba(66, 133, 244, 0.12);
+}
+
+
+/* =========================================
+   GOOGLE ICON
+   ========================================= */
+
 .google-icon {
+
   margin-right: 12px;
 
   color: #4285f4;
@@ -383,10 +532,11 @@
 
 
 /* =========================================
-   REGISTER
+   REGISTER TEXT
    ========================================= */
 
 .register {
+
   margin-top: 18px;
 
   color: #596270;
@@ -400,6 +550,7 @@
 
 
 .register a {
+
   margin-left: 7px;
 
   color: #216638;
@@ -410,6 +561,12 @@
 }
 
 
+.register a:hover {
+
+  color: #164d28;
+}
+
+
 /* =========================================
    MOBILE
    ========================================= */
@@ -417,6 +574,7 @@
 @media (max-width: 600px) {
 
   .page {
+
     min-height: 100vh;
 
     display: flex;
@@ -426,22 +584,31 @@
     align-items: center;
 
     padding: 6px;
+
+    background: transparent;
   }
 
 
   .login-card {
+
     padding: 28px 24px;
 
     min-height: auto;
+
+    width: 440px;
+
+    max-width: 94vw;
   }
 
 
   .logo-title {
+
     font-size: 36px;
   }
 
 
   .login-card h2 {
+
     font-size: 31px;
   }
 
@@ -456,6 +623,7 @@
 .login-card p,
 .login-card .form-row,
 .login-card .password-box {
+
   margin-top: 4px !important;
 
   margin-bottom: 8px !important;
@@ -463,6 +631,7 @@
 
 
 .login-card button {
+
   margin-top: 8px !important;
 
   margin-bottom: 8px !important;

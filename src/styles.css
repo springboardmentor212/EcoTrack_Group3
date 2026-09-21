@@ -1,5 +1,107 @@
-html,body{
-    margin:0;
-    padding:0;
-    /* You can add global styles to this file, and also import other style files */
+/* =========================================
+   GLOBAL RESET
+   ========================================= */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  min-height: 100%;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   GLOBAL BOX SIZING
+   ========================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   ECOTRACK GLOBAL BACKGROUND
+   ========================================= */
+
+body {
+
+  min-height: 100vh;
+
+  background:
+
+    /* Soft green glow - top left */
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(110, 231, 183, 0.55),
+      transparent 30%
+    ),
+
+    /* Soft blue-green glow - top right */
+    radial-gradient(
+      circle at 88% 20%,
+      rgba(125, 211, 252, 0.40),
+      transparent 30%
+    ),
+
+    /* Emerald glow - bottom right */
+    radial-gradient(
+      circle at 78% 85%,
+      rgba(52, 211, 153, 0.40),
+      transparent 34%
+    ),
+
+    /* Light green glow - bottom left */
+    radial-gradient(
+      circle at 15% 85%,
+      rgba(167, 243, 208, 0.45),
+      transparent 32%
+    ),
+
+    /* Main background */
+    linear-gradient(
+      135deg,
+      #e4f7eb 0%,
+      #f1faf4 35%,
+      #e8f6f1 68%,
+      #e0f3eb 100%
+    );
+
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  color: #27384b;
+}
+
+
+/* =========================================
+   REMOVE DEFAULT BUTTON / INPUT FONT
+   ========================================= */
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+
+/* =========================================
+   ROUTER ROOT
+   ========================================= */
+
+app-root {
+  display: block;
+  min-height: 100vh;
 }
