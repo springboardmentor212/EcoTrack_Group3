@@ -1,0 +1,798 @@
+<div class="dashboard-page">
+
+  <!-- ================= SIDEBAR ================= -->
+
+  <aside class="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        🌿
+      </div>
+
+      <span>
+        EcoTrack
+      </span>
+
+    </div>
+
+
+    <nav class="navigation">
+
+
+      <a
+        routerLink="/dashboard"
+        class="nav-item active"
+      >
+
+        <span class="nav-icon">
+          ▦
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </a>
+
+
+      <a
+        routerLink="/track-activity"
+        class="nav-item"
+      >
+
+        <span class="nav-icon">
+          ♧
+        </span>
+
+        <span>
+          Track Activity
+        </span>
+
+      </a>
+
+
+      <a
+        routerLink="/carbon-footprint"
+        class="nav-item"
+      >
+
+        <span class="nav-icon">
+          ◉
+        </span>
+
+        <span>
+          Carbon Footprint
+        </span>
+
+      </a>
+
+
+      <a
+        routerLink="/goals"
+        class="nav-item"
+      >
+
+        <span class="nav-icon">
+          ◎
+        </span>
+
+        <span>
+          Goals
+        </span>
+
+      </a>
+
+
+      <a
+        routerLink="/challenges"
+        class="nav-item"
+      >
+
+        <span class="nav-icon">
+          ♢
+        </span>
+
+        <span>
+          Challenges
+        </span>
+
+      </a>
+
+
+      <a
+        routerLink="/profile"
+        class="nav-item"
+      >
+
+        <span class="nav-icon">
+          ◎
+        </span>
+
+        <span>
+          Profile
+        </span>
+
+      </a>
+
+
+      <!-- LOGOUT -->
+
+      <button
+        type="button"
+        class="nav-item logout-button"
+        (click)="logout()"
+      >
+
+        <span class="nav-icon">
+          ↪
+        </span>
+
+        <span>
+          Logout
+        </span>
+
+      </button>
+
+
+    </nav>
+
+
+    <!-- CURRENT USER -->
+
+    <div class="user-profile">
+
+      <div class="avatar">
+        👤
+      </div>
+
+      <div>
+
+        <strong>
+          {{ userName }}
+        </strong>
+
+        <small>
+          Eco Member
+        </small>
+
+      </div>
+
+    </div>
+
+
+  </aside>
+
+
+
+  <!-- ================= MAIN CONTENT ================= -->
+
+  <main class="main-content">
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome-section">
+
+      <div>
+
+        <h1>
+          Welcome back,
+          {{ userName }}!
+        </h1>
+
+        <p>
+          Here is your ecological
+          footprint update for this week.
+        </p>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats-grid">
+
+
+      <!-- CARBON -->
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+
+          <span>
+            CARBON FOOTPRINT
+          </span>
+
+          <span class="small-icon">
+            ↘
+          </span>
+
+        </div>
+
+
+        <div class="stat-value">
+
+          {{ totalCarbon | number:'1.0-2' }}
+
+          <span>
+            kg CO₂
+          </span>
+
+        </div>
+
+
+        <div class="stat-bottom">
+
+          <span class="positive">
+            ↓ 12%
+          </span>
+
+          <span>
+            vs last month
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- SUSTAINABILITY -->
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+
+          <span>
+            SUSTAINABILITY SCORE
+          </span>
+
+          <span class="small-icon">
+            ✓
+          </span>
+
+        </div>
+
+
+        <div class="stat-value">
+
+          78<span>/100</span>
+
+        </div>
+
+
+        <div class="stat-bottom">
+
+          <span class="positive">
+            ↑ 4 pts
+          </span>
+
+          <span>
+            vs last month
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- GOALS -->
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+
+          <span>
+            GOAL PROGRESS
+          </span>
+
+          <span class="small-icon">
+            🎯
+          </span>
+
+        </div>
+
+
+        <div class="stat-value">
+
+          {{ completedGoals }}
+
+          <span>
+            of {{ totalGoals }} done
+          </span>
+
+        </div>
+
+
+        <div class="stat-bottom">
+
+          <span class="positive">
+            On Track
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- STREAK -->
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+
+          <span>
+            STREAK
+          </span>
+
+          <span class="small-icon">
+            🔥
+          </span>
+
+        </div>
+
+
+        <div class="stat-value">
+
+          0
+
+          <span>
+            Days
+          </span>
+
+        </div>
+
+
+        <div class="stat-bottom">
+
+          <span class="positive">
+            Keep going
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================= LOWER DASHBOARD ================= -->
+
+    <section class="dashboard-grid">
+
+
+      <!-- ================= LEFT ================= -->
+
+      <div class="right-column">
+
+
+        <!-- ACTIVITY SUMMARY -->
+
+        <section class="activity-summary">
+
+
+          <div>
+
+            <span>
+              ACTIVITY TIME
+            </span>
+
+            <strong>
+              {{ totalMinutes }} min
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              CALORIES BURNED
+            </span>
+
+            <strong>
+              {{ totalCalories }} kcal
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              ACTIVITIES LOGGED
+            </span>
+
+            <strong>
+              {{ activityCount }}
+            </strong>
+
+          </div>
+
+
+        </section>
+
+
+
+        <!-- RECENT ACTIVITIES -->
+
+        <div class="card activities-card">
+
+
+          <div class="card-header">
+
+            <h2>
+              Recent Activities
+            </h2>
+
+            <span>
+              {{ activityCount }} logged
+            </span>
+
+          </div>
+
+
+          <div
+            class="activity"
+            *ngFor="
+              let activity
+              of activities | slice:0:3
+            "
+          >
+
+            <div class="activity-icon">
+
+              {{ activity.icon }}
+
+            </div>
+
+
+            <div class="activity-info">
+
+              <strong>
+                {{ activity.type }}
+              </strong>
+
+              <small>
+
+                {{ formatDate(activity.date) }}
+
+                ·
+
+                {{ activity.duration }} min
+
+                ·
+
+                {{ activity.calories }} kcal
+
+              </small>
+
+            </div>
+
+
+            <span class="activity-points">
+
+              {{ activity.duration }} min
+
+            </span>
+
+          </div>
+
+
+          <div
+            class="no-dashboard-activities"
+            *ngIf="activities.length === 0"
+          >
+
+            No activities recorded yet.
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- ACTIVE CHALLENGE -->
+
+        <div class="challenge-card">
+
+          <div class="challenge-header">
+
+            <span>
+              ACTIVE CHALLENGE
+            </span>
+
+            <span>
+              🏆
+            </span>
+
+          </div>
+
+
+          <h3>
+            Zero Waste Week
+          </h3>
+
+
+          <p>
+            Avoid all single-use plastics
+            for 7 consecutive days.
+          </p>
+
+
+          <div class="progress-bar">
+
+            <div class="progress"></div>
+
+          </div>
+
+
+          <div class="challenge-footer">
+
+            <span>
+              0 / 7 days
+            </span>
+
+            <span>
+              0%
+            </span>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- ================= LEADERBOARD ================= -->
+
+      <section class="leaderboard-card">
+
+
+        <div class="leaderboard-header">
+
+          <div>
+
+            <h2>
+              Eco Leaderboard
+            </h2>
+
+            <p>
+              Registered EcoTrack members
+            </p>
+
+          </div>
+
+          <span class="leaderboard-trophy">
+            🏆
+          </span>
+
+        </div>
+
+
+
+        <!-- TOP THREE -->
+
+        <div class="top-three">
+
+
+          <!-- SECOND -->
+
+          <div
+            class="top-member second"
+            *ngIf="leaderboard.length > 1"
+          >
+
+            <div class="member-avatar">
+              {{ leaderboard[1].avatar }}
+            </div>
+
+            <div class="rank-medal">
+              🥈
+            </div>
+
+            <strong>
+              {{ leaderboard[1].name }}
+            </strong>
+
+            <span>
+              {{ leaderboard[1].points }} pts
+            </span>
+
+          </div>
+
+
+
+          <!-- FIRST -->
+
+          <div
+            class="top-member first"
+            *ngIf="leaderboard.length > 0"
+          >
+
+            <div class="crown">
+              👑
+            </div>
+
+            <div class="member-avatar">
+
+              {{ leaderboard[0].avatar }}
+
+            </div>
+
+            <div class="rank-medal">
+              🥇
+            </div>
+
+            <strong>
+              {{ leaderboard[0].name }}
+            </strong>
+
+            <span>
+              {{ leaderboard[0].points }} pts
+            </span>
+
+          </div>
+
+
+
+          <!-- THIRD -->
+
+          <div
+            class="top-member third"
+            *ngIf="leaderboard.length > 2"
+          >
+
+            <div class="member-avatar">
+
+              {{ leaderboard[2].avatar }}
+
+            </div>
+
+            <div class="rank-medal">
+              🥉
+            </div>
+
+            <strong>
+              {{ leaderboard[2].name }}
+            </strong>
+
+            <span>
+              {{ leaderboard[2].points }} pts
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- OTHER MEMBERS -->
+
+        <div class="leaderboard-list">
+
+
+          <div
+            class="leaderboard-row"
+            *ngFor="
+              let member
+              of leaderboard.slice(3)
+            "
+            [class.current-user]="member.you"
+          >
+
+            <div class="rank">
+
+              #{{ member.rank }}
+
+            </div>
+
+
+            <div class="small-avatar">
+
+              {{ member.avatar }}
+
+            </div>
+
+
+            <div class="member-details">
+
+              <strong>
+
+                {{ member.name }}
+
+                <span
+                  class="you-badge"
+                  *ngIf="member.you"
+                >
+                  YOU
+                </span>
+
+              </strong>
+
+              <small>
+
+                {{ member.steps | number }}
+                steps
+
+                ·
+
+                {{ member.activities }}
+                activities
+
+              </small>
+
+            </div>
+
+
+            <div class="member-points">
+
+              <strong>
+                {{ member.points }}
+              </strong>
+
+              <small>
+                pts
+              </small>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- YOUR POSITION -->
+
+        <div class="your-position">
+
+          <div>
+
+            <small>
+              Your position
+            </small>
+
+            <strong>
+              #{{ currentUserRank }}
+            </strong>
+
+          </div>
+
+
+          <div class="your-points">
+
+            <small>
+              Eco Points
+            </small>
+
+            <strong>
+              {{ currentUserPoints }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+      </section>
+
+
+    </section>
+
+
+  </main>
+
+</div>

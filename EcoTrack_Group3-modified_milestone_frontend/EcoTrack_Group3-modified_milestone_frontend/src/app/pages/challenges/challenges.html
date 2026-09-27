@@ -1,0 +1,511 @@
+
+<div class="challenges-page">
+
+  <!-- ================= HEADER ================= -->
+
+  <div class="page-header">
+
+    <div class="header-text">
+      <h1>Daily Challenges 🎯</h1>
+
+      <p>
+        Complete your personalized challenges and keep your streak alive!
+      </p>
+    </div>
+
+    <div class="streak-card">
+
+      <span class="fire">🔥</span>
+
+      <div>
+        <strong>{{ currentStreak }} Days</strong>
+        <small>Current Streak</small>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= SUMMARY CARDS ================= -->
+
+  <div class="summary-grid">
+
+    <!-- Completed -->
+
+    <div class="summary-card">
+
+      <div class="summary-icon trophy">
+        🏆
+      </div>
+
+      <div class="summary-content">
+
+        <strong>{{ completedCount }} / 3</strong>
+
+        <span>
+          Challenges Completed
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- Points -->
+
+    <div class="summary-card">
+
+      <div class="summary-icon star">
+        ⭐
+      </div>
+
+      <div class="summary-content">
+
+        <strong>{{ earnedPoints }}</strong>
+
+        <span>
+          Points Earned Today
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- Progress -->
+
+    <div class="summary-card">
+
+      <div class="summary-icon target">
+        🎯
+      </div>
+
+      <div class="summary-content">
+
+        <strong>{{ overallProgress }}%</strong>
+
+        <span>
+          Daily Progress
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= TODAY'S PROGRESS ================= -->
+
+  <div class="progress-section">
+
+    <div class="progress-header">
+
+      <div>
+
+        <h2>Today's Progress</h2>
+
+        <p>
+          Keep going — you're doing great!
+        </p>
+
+      </div>
+
+      <span>
+        {{ completedCount }} / 3 completed
+      </span>
+
+    </div>
+
+
+    <div class="progress-bar">
+
+      <div
+        class="progress-fill"
+        [style.width.%]="overallProgress">
+      </div>
+
+    </div>
+
+
+    <div class="progress-text">
+
+      {{ overallProgress }}% of today's challenges completed
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       CHALLENGE TABS
+  ====================================================== -->
+
+  <div class="challenge-tabs">
+
+    <button
+      [class.active]="activeTab === 'all'"
+      (click)="activeTab = 'all'">
+
+      All Challenges
+
+    </button>
+
+
+    <button
+      [class.active]="activeTab === 'active'"
+      (click)="activeTab = 'active'">
+
+      Active
+
+    </button>
+
+
+    <button
+      [class.active]="activeTab === 'completed'"
+      (click)="activeTab = 'completed'">
+
+      Completed
+
+    </button>
+
+
+  </div>
+
+
+  <!-- ================= CHALLENGES ================= -->
+
+  <div class="challenges-grid">
+
+
+    <!-- ================= WALKING ================= -->
+
+    <div
+      class="challenge-card"
+      [class.completed]="challenges[0].completed"
+      *ngIf="isChallengeVisible(0)">
+
+      <div class="challenge-top">
+
+        <div class="challenge-icon">
+          🚶
+        </div>
+
+        <span class="difficulty easy">
+          Easy
+        </span>
+
+      </div>
+
+
+      <span class="challenge-label">
+        Walking
+      </span>
+
+
+      <h3>
+        Walk 5,000 Steps
+      </h3>
+
+
+      <p>
+        Take a walk and reach your daily step goal.
+      </p>
+
+
+      <!-- Progress -->
+
+      <div class="challenge-progress">
+
+        <div class="progress-info">
+
+          <span>
+            {{ challenges[0].progress | number }} / 5,000 steps
+          </span>
+
+          <strong>
+            {{ challenges[0].percentage }}%
+          </strong>
+
+        </div>
+
+
+        <div class="small-progress-bar">
+
+          <div
+            class="small-progress-fill"
+            [style.width.%]="challenges[0].percentage">
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Footer -->
+
+      <div class="challenge-footer">
+
+        <span class="reward">
+          ⭐ +20 points
+        </span>
+
+        <button
+          class="complete-btn"
+          [class.done]="challenges[0].completed"
+          (click)="completeChallenge(0)">
+
+          {{ challenges[0].completed ? '✓ Completed' : 'Complete' }}
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================= WATER ================= -->
+
+    <div
+      class="challenge-card"
+      [class.completed]="challenges[1].completed"
+      *ngIf="isChallengeVisible(1)">
+
+      <div class="challenge-top">
+
+        <div class="challenge-icon water">
+          💧
+        </div>
+
+        <span class="difficulty medium">
+          Medium
+        </span>
+
+      </div>
+
+
+      <span class="challenge-label">
+        Healthy Habit
+      </span>
+
+
+      <h3>
+        Drink 2 Litres of Water
+      </h3>
+
+
+      <p>
+        Stay hydrated throughout the day and keep your body healthy.
+      </p>
+
+
+      <!-- Progress -->
+
+      <div class="challenge-progress">
+
+        <div class="progress-info">
+
+          <span>
+            {{ challenges[1].progress }}L / 2L
+          </span>
+
+          <strong>
+            {{ challenges[1].percentage }}%
+          </strong>
+
+        </div>
+
+
+        <div class="small-progress-bar">
+
+          <div
+            class="small-progress-fill"
+            [style.width.%]="challenges[1].percentage">
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Footer -->
+
+      <div class="challenge-footer">
+
+        <span class="reward">
+          ⭐ +20 points
+        </span>
+
+        <button
+          class="complete-btn"
+          [class.done]="challenges[1].completed"
+          (click)="completeChallenge(1)">
+
+          {{ challenges[1].completed ? '✓ Completed' : 'Complete' }}
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================= ECO ================= -->
+
+    <div
+      class="challenge-card"
+      [class.completed]="challenges[2].completed"
+      *ngIf="isChallengeVisible(2)">
+
+      <div class="challenge-top">
+
+        <div class="challenge-icon eco">
+          🌱
+        </div>
+
+        <span class="difficulty hard">
+          Hard
+        </span>
+
+      </div>
+
+
+      <span class="challenge-label">
+        Eco Friendly
+      </span>
+
+
+      <h3>
+        Choose a Green Activity
+      </h3>
+
+
+      <p>
+        Complete one eco-friendly activity and help protect our planet.
+      </p>
+
+
+      <!-- Progress -->
+
+      <div class="challenge-progress">
+
+        <div class="progress-info">
+
+          <span>
+            {{ challenges[2].completed ? '1 / 1 activity' : '0 / 1 activity' }}
+          </span>
+
+          <strong>
+            {{ challenges[2].percentage }}%
+          </strong>
+
+        </div>
+
+
+        <div class="small-progress-bar">
+
+          <div
+            class="small-progress-fill"
+            [style.width.%]="challenges[2].percentage">
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Footer -->
+
+      <div class="challenge-footer">
+
+        <span class="reward">
+          ⭐ +30 points
+        </span>
+
+        <button
+          class="complete-btn"
+          [class.done]="challenges[2].completed"
+          (click)="completeChallenge(2)">
+
+          {{ challenges[2].completed ? '✓ Completed' : 'Complete' }}
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= REWARD ================= -->
+
+  <div
+    class="reward-section"
+    [class.all-completed]="completedCount === 3">
+
+    <div class="reward-icon">
+
+      {{ completedCount === 3 ? '🎉' : '🏆' }}
+
+    </div>
+
+
+    <div class="reward-content">
+
+      <h2>
+
+        {{ completedCount === 3
+          ? 'Amazing Work!'
+          : 'Keep Going!'
+        }}
+
+      </h2>
+
+
+      <p>
+
+        {{
+          completedCount === 3
+            ? 'You completed all 3 challenges today and earned your special sticker! 🎖️'
+            : 'Complete all 3 challenges today to earn a special sticker.'
+        }}
+
+      </p>
+
+
+      <!-- ================= SPECIAL REWARD ================= -->
+
+      <div
+        class="special-reward"
+        *ngIf="completedCount === 3">
+
+        <div class="reward-sticker">
+          🏅
+        </div>
+
+
+        <div class="reward-details">
+
+          <strong>
+            Daily Champion 🎖️
+          </strong>
+
+          <span>
+            You earned your special sticker!
+          </span>
+
+          <small>
+            ⭐ +50 Bonus Points
+          </small>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,285 @@
+* {
+  box-sizing: border-box;
+}
+
+:host {
+  display: block;
+}
+
+/* Whole page */
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 6px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef5f0,
+      #f5f3ef
+    );
+
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/* Main login card */
+.login-card {
+  width: 560px;
+  max-width: 100%;
+
+  min-height: 735px;
+
+  padding: 32px 42px;
+
+  background: rgba(255, 255, 255, 0.55);
+
+  border: 1px solid #cfd4d1;
+  border-radius: 30px;
+
+  text-align: center;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* Logo */
+.logo-icon {
+  font-size: 34px;
+  margin-bottom: 0;
+}
+
+.logo-title {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 700;
+  color: #27384b;
+}
+
+.logo-title span {
+  color: #1f7a39;
+}
+
+.tagline {
+  margin: 0;
+  margin-top: 0;
+
+  color: #1d6435;
+  font-size: 17px;
+  letter-spacing: 0.3px;
+}
+
+/* Welcome */
+.login-card h2 {
+  margin-top: 26px;
+  margin-bottom: 6px;
+
+  font-size: 36px;
+  color: #27384b;
+}
+
+.subtitle {
+  margin-top: 0;
+  margin-bottom: 28px;
+
+  font-size: 16px;
+  color: #586474;
+}
+
+/* Form */
+.form-group {
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+
+  color: #2f3d4b;
+}
+
+.form-group input {
+  width: 100%;
+  height: 53px;
+
+  padding: 0 15px;
+
+  border: 1px solid #c8cdd0;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.45);
+
+  font-size: 17px;
+
+  color: #2f3d4b;
+}
+
+.form-group input::placeholder {
+  color: #6d7680;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #2c7a3f;
+}
+
+/* Password */
+.password-box {
+  position: relative;
+}
+
+.password-box input {
+  padding-right: 50px;
+}
+
+.eye {
+  position: absolute;
+
+  right: 17px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Forgot password */
+.forgot {
+  text-align: right;
+  margin-top: -2px;
+}
+
+.forgot a {
+  font-family: Arial, sans-serif;
+
+  color: #216638;
+  font-size: 15px;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+/* Login button */
+.login-btn {
+  width: 100%;
+  height: 56px;
+
+  margin-top: 18px;
+
+  border: none;
+  border-radius: 13px;
+
+  background: #1f7a2e;
+
+  color: white;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: #186525;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  margin: 21px 0;
+}
+
+.divider div {
+  flex: 1;
+  height: 1px;
+
+  background: #c7c7c7;
+}
+
+.divider span {
+  font-weight: 600;
+  color: #5d6570;
+}
+
+/* Google button */
+.google-btn {
+  width: 100%;
+  height: 51px;
+
+  border: 1px solid #4b82cf;
+  border-radius: 12px;
+
+  background: transparent;
+
+  color: #2f3d4b;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.google-icon {
+  margin-right: 12px;
+
+  color: #4285f4;
+
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+
+  vertical-align: middle;
+}
+
+/* Register */
+.register {
+  margin-top: 18px;
+
+  color: #596270;
+
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.register a {
+  margin-left: 7px;
+
+  color: #216638;
+
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+  .page {
+    padding: 10px;
+  }
+
+  .login-card {
+    padding: 28px 24px;
+    min-height: auto;
+  }
+
+  .logo-title {
+    font-size: 36px;
+  }
+
+  .login-card h2 {
+    font-size: 31px;
+  }
+}

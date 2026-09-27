@@ -1,0 +1,102 @@
+<div class="page">
+
+  <div class="login-card">
+
+    <!-- LOGO -->
+    <div class="logo-icon">
+      🌿
+    </div>
+
+    <!-- BRAND -->
+    <h1 class="logo-title">
+      <span>Eco</span>Track
+    </h1>
+
+    <p class="tagline">
+      Track • Reduce • Sustain
+    </p>
+
+    <!-- TITLE -->
+    <h2>
+      Welcome Back!
+    </h2>
+
+    <p class="subtitle">
+      Login to continue your EcoTrack journey.
+    </p>
+
+    <!-- EMAIL -->
+    <div class="form-group">
+
+      <label for="email">
+        Email Address
+      </label>
+
+      <input
+        id="email"
+        #email
+        type="email"
+        placeholder="Enter your email"
+      >
+
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="form-group">
+
+      <label for="password">
+        Password
+      </label>
+
+      <div class="password-box">
+
+        <input
+          id="password"
+          #password
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Enter your password"
+        >
+
+        <button
+          type="button"
+          (click)="togglePassword()"
+        >
+          {{ showPassword ? '🙈' : '👁' }}
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- FORGOT PASSWORD -->
+    <div class="forgot">
+
+      <a routerLink="/forgot-password">
+        Forgot Password?
+      </a>
+
+    </div>
+
+    <!-- LOGIN -->
+    <button
+      type="button"
+      class="login-btn"
+      (click)="login(email.value, password.value)"
+    >
+      Login
+    </button>
+
+    <!-- REGISTER -->
+    <p class="register">
+
+      Don't have an account?
+
+      <a routerLink="/register">
+        Register
+      </a>
+
+    </p>
+
+  </div>
+
+</div>

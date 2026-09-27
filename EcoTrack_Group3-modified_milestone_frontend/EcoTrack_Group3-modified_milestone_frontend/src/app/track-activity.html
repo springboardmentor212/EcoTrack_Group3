@@ -1,0 +1,257 @@
+<div class="page">
+
+  <!-- Header -->
+  <header class="top-header">
+
+    <div>
+      <h1>🌿 EcoTrack</h1>
+      <p>Track Activity</p>
+    </div>
+
+    <div class="user">
+      <div class="avatar">👩</div>
+
+      <div>
+        <strong>Sarah Jenkins</strong>
+        <span>Eco Member</span>
+      </div>
+    </div>
+
+  </header>
+
+
+  <!-- Main Content -->
+  <main class="container">
+
+    <div class="page-title">
+      <div>
+        <h2>Track Your Activity</h2>
+        <p>
+          Record your daily activities to calculate your ecological footprint.
+        </p>
+      </div>
+    </div>
+
+
+    <!-- Activity Categories -->
+
+    <section class="activity-section">
+
+      <h3>Choose Activity Type</h3>
+
+      <div class="activity-grid">
+
+        <button
+          class="activity-card"
+          [class.selected]="activityType === 'Transportation'"
+          (click)="selectActivity('Transportation')">
+
+          <span class="icon">🚗</span>
+
+          <strong>Transportation</strong>
+
+          <small>Car, bike, bus & travel</small>
+
+        </button>
+
+
+        <button
+          class="activity-card"
+          [class.selected]="activityType === 'Electricity'"
+          (click)="selectActivity('Electricity')">
+
+          <span class="icon">⚡</span>
+
+          <strong>Electricity</strong>
+
+          <small>Home electricity usage</small>
+
+        </button>
+
+
+        <button
+          class="activity-card"
+          [class.selected]="activityType === 'Fuel'"
+          (click)="selectActivity('Fuel')">
+
+          <span class="icon">⛽</span>
+
+          <strong>Fuel</strong>
+
+          <small>Petrol & diesel usage</small>
+
+        </button>
+
+
+        <button
+          class="activity-card"
+          [class.selected]="activityType === 'Food'"
+          (click)="selectActivity('Food')">
+
+          <span class="icon">🍴</span>
+
+          <strong>Food</strong>
+
+          <small>Meals & food consumption</small>
+
+        </button>
+
+
+        <button
+          class="activity-card"
+          [class.selected]="activityType === 'Waste'"
+          (click)="selectActivity('Waste')">
+
+          <span class="icon">🗑️</span>
+
+          <strong>Waste</strong>
+
+          <small>Waste generation</small>
+
+        </button>
+
+
+        <button
+          class="activity-card"
+          [class.selected]="activityType === 'Water'"
+          (click)="selectActivity('Water')">
+
+          <span class="icon">💧</span>
+
+          <strong>Water</strong>
+
+          <small>Water consumption</small>
+
+        </button>
+
+
+        <button
+          class="activity-card"
+          [class.selected]="activityType === 'Shopping'"
+          (click)="selectActivity('Shopping')">
+
+          <span class="icon">🛍️</span>
+
+          <strong>Shopping</strong>
+
+          <small>Online purchases</small>
+
+        </button>
+
+
+        <button
+          class="activity-card"
+          [class.selected]="activityType === 'Travel'"
+          (click)="selectActivity('Travel')">
+
+          <span class="icon">✈️</span>
+
+          <strong>Travel</strong>
+
+          <small>Flights & long trips</small>
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- Input Form -->
+
+    @if (activityType) {
+
+      <section class="form-card">
+
+        <div class="form-header">
+
+          <div>
+            <h3>{{ activityType }}</h3>
+            <p>Enter your activity details below.</p>
+          </div>
+
+          <button
+            class="reset-btn"
+            (click)="resetForm()">
+
+            Reset
+
+          </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Amount
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="number"
+              min="0"
+              [(ngModel)]="amount"
+              placeholder="Enter amount">
+
+            <span>{{ unit }}</span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="calculate-btn"
+          (click)="calculateEmission()">
+
+          Calculate Carbon Emission
+
+        </button>
+
+
+        @if (showResult) {
+
+          <div class="result">
+
+            <span>Estimated Carbon Emission</span>
+
+            <strong>
+              {{ carbonEmission }} kg CO₂
+            </strong>
+
+            <p>
+              Your activity has been successfully calculated.
+            </p>
+
+          </div>
+
+        }
+
+      </section>
+
+    }
+
+
+    <!-- Information -->
+
+    <section class="info">
+
+      <div class="info-icon">🌱</div>
+
+      <div>
+        <h3>Why track your activities?</h3>
+
+        <p>
+          Tracking your daily activities helps EcoTrack understand your
+          environmental impact and provide personalized sustainability
+          recommendations.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

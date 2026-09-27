@@ -1,0 +1,182 @@
+<div class="register-page">
+
+  <div class="register-card">
+
+    <!-- LOGO -->
+    <div class="logo">
+      🍃
+    </div>
+
+    <!-- BRAND -->
+    <div class="brand">
+      <span>Eco</span>Track
+    </div>
+
+    <div class="tagline">
+      Track • Reduce • Sustain
+    </div>
+
+
+    <!-- TITLE -->
+    <h1>
+      Create User Account
+    </h1>
+
+    <p class="subtitle">
+      Join EcoTrack and start your sustainability journey.
+    </p>
+
+
+    <!-- FULL NAME -->
+    <div class="form-row">
+
+      <label>
+        Full Name
+      </label>
+
+      <input
+        type="text"
+        [(ngModel)]="name"
+        placeholder="Enter your full name"
+        (input)="validateName()"
+      >
+
+      <div
+        class="validation-error"
+        *ngIf="nameError"
+      >
+        ❌ {{ nameError }}
+      </div>
+
+    </div>
+
+
+    <!-- EMAIL -->
+    <div class="form-row">
+
+      <label>
+        Email
+      </label>
+
+      <input
+        type="email"
+        [(ngModel)]="email"
+        placeholder="Enter your email"
+        (input)="validateEmail()"
+      >
+
+      <div
+        class="validation-error"
+        *ngIf="emailError"
+      >
+        ❌ {{ emailError }}
+      </div>
+
+    </div>
+
+
+    <!-- PASSWORD -->
+    <div class="form-row">
+
+      <label>
+        Password
+      </label>
+
+      <div class="password-box">
+
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          [(ngModel)]="password"
+          placeholder="Create password"
+          (input)="validatePassword()"
+        >
+
+        <button
+          type="button"
+          (click)="togglePassword()"
+        >
+          {{ showPassword ? '🙈' : '👁' }}
+        </button>
+
+      </div>
+
+
+      <!-- PASSWORD ERRORS -->
+      <div
+        class="validation-errors"
+        *ngIf="passwordErrors.length > 0"
+      >
+
+        <div
+          class="validation-error"
+          *ngFor="let error of passwordErrors"
+        >
+          ❌ {{ error }}
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- CONFIRM PASSWORD -->
+    <div class="form-row">
+
+      <label>
+        Confirm Password
+      </label>
+
+      <div class="password-box">
+
+        <input
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          [(ngModel)]="confirmPassword"
+          placeholder="Confirm password"
+          (input)="validateConfirmPassword()"
+        >
+
+        <button
+          type="button"
+          (click)="toggleConfirmPassword()"
+        >
+          {{ showConfirmPassword ? '🙈' : '👁' }}
+        </button>
+
+      </div>
+
+
+      <!-- CONFIRM PASSWORD ERROR -->
+      <div
+        class="validation-error"
+        *ngIf="confirmPasswordError"
+      >
+        ❌ {{ confirmPasswordError }}
+      </div>
+
+    </div>
+
+
+    <!-- CREATE ACCOUNT -->
+    <button
+      type="button"
+      class="create-button"
+      (click)="register()"
+    >
+      Create Account
+    </button>
+
+
+    <!-- LOGIN -->
+    <p class="login">
+
+      Already have an account?
+
+      <a routerLink="/login">
+        Login
+      </a>
+
+    </p>
+
+  </div>
+
+</div>
