@@ -1144,3 +1144,204 @@ body {
   }
 
 }
+
+/* =====================================
+   DARK MODE
+===================================== */
+
+body.dark-mode .carbon-page {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+body.dark-mode .sidebar {
+  background: #17221b;
+  border-right-color: #2f3a32;
+}
+
+body.dark-mode .brand {
+  color: #86efac;
+}
+
+body.dark-mode .brand-icon {
+  background: #243a2a;
+}
+
+body.dark-mode .nav-item {
+  color: #b7c4ba;
+}
+
+body.dark-mode .nav-item:hover {
+  background: #26372b;
+  color: #86efac;
+}
+
+body.dark-mode .nav-item.active {
+  background: #29432f;
+  color: #86efac;
+}
+
+body.dark-mode .user-profile {
+  border-top-color: #2f3a32;
+}
+
+body.dark-mode .avatar {
+  background: #29352c;
+}
+
+body.dark-mode .user-profile strong {
+  color: #e5e7eb;
+}
+
+body.dark-mode .user-profile small {
+  color: #9ca89f;
+}
+
+body.dark-mode .page-header h1 {
+  color: #f3f4f6;
+}
+
+body.dark-mode .page-header p {
+  color: #9ca89f;
+}
+
+body.dark-mode .eyebrow {
+  color: #86c98d;
+}
+
+body.dark-mode .period-selector {
+  background: #26342a;
+}
+
+body.dark-mode .period-selector button {
+  color: #b7c4ba;
+}
+
+body.dark-mode .period-selector button:hover {
+  color: #86efac;
+}
+
+body.dark-mode .period-selector button.active {
+  background: #37463a;
+  color: #86efac;
+}
+
+body.dark-mode .card {
+  background: #1b2720;
+  border-color: #344138;
+}
+
+body.dark-mode .card-header h2,
+body.dark-mode .add-header h2,
+body.dark-mode .section-header h2,
+body.dark-mode .section-heading h2 {
+  color: #e5e7eb;
+}
+
+body.dark-mode .card-header span,
+body.dark-mode .section-header p,
+body.dark-mode .add-header p {
+  color: #9ca89f;
+}
+
+body.dark-mode .chart {
+  border-bottom-color: #344138;
+}
+
+body.dark-mode .bar-label,
+body.dark-mode .chart-empty,
+body.dark-mode .category-title small,
+body.dark-mode .percentage {
+  color: #9ca89f;
+}
+
+body.dark-mode .category-title strong {
+  color: #d8e2da;
+}
+
+body.dark-mode .category-progress {
+  background: #334238;
+}
+
+body.dark-mode .category-progress-fill {
+  background: #55a95f;
+}
+
+body.dark-mode .chart-period,
+body.dark-mode .record-count {
+  background: #293a2d;
+  color: #9be3a2;
+}
+
+body.dark-mode .form-group label {
+  color: #d8e2da;
+}
+
+body.dark-mode .form-group input,
+body.dark-mode .form-group select {
+  background: #202d25;
+  color: #e5e7eb;
+  border-color: #3b493f;
+}
+
+body.dark-mode .form-group input::placeholder {
+  color: #89968d;
+}
+
+body.dark-mode .form-group input:focus,
+body.dark-mode .form-group select:focus {
+  border-color: #58a661;
+  box-shadow: 0 0 0 2px rgba(88, 166, 97, 0.18);
+}
+
+body.dark-mode .message {
+  background: #253a29;
+  color: #9be3a2;
+}
+
+body.dark-mode .record {
+  border-bottom-color: #344138;
+}
+
+body.dark-mode .record-info strong,
+body.dark-mode .record-amount strong,
+body.dark-mode .record-emission strong {
+  color: #dce6de;
+}
+
+body.dark-mode .record-info small,
+body.dark-mode .record-amount small,
+body.dark-mode .record-emission small {
+  color: #929e95;
+}
+
+body.dark-mode .record-icon {
+  background: #293a2d;
+}
+
+body.dark-mode .delete-button:hover {
+  background: #422a2a;
+}
+
+body.dark-mode .empty-state h3 {
+  color: #dce6de;
+}
+
+body.dark-mode .empty-state p,
+body.dark-mode .supported-card span {
+  color: #929e95;
+}
+
+body.dark-mode .supported-card {
+  background: #1b2720;
+  border-color: #344138;
+}
+
+body.dark-mode .supported-card h3 {
+  color: #dce6de;
+}
+
+body.dark-mode .budget-badge {
+  background: #e5f5e8;
+  color: #216d2d;
+}

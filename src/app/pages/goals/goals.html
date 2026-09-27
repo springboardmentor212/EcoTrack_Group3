@@ -82,16 +82,23 @@
       <div class="goals-grid">
 
         <div class="goal-card" *ngFor="let goal of activeGoals">
+<div class="goal-top">
+  <div class="goal-icon">🎯</div>
 
-          <div class="goal-top">
-            <div class="goal-icon">🎯</div>
+  <div>
+    <button
+      class="edit-btn"
+      (click)="openEditGoal(goal)">
+      ✏️
+    </button>
 
-            <button
-              class="delete-btn"
-              (click)="deleteGoal(goal.id)">
-              ×
-            </button>
-          </div>
+    <button 
+      class="delete-btn" 
+      (click)="deleteGoal(goal.id)"> 
+      × 
+    </button>
+  </div>
+</div>
 
           <h3>{{ goal.title }}</h3>
 
@@ -190,6 +197,67 @@
 
 </div>
 
+<!-- Goal Analytics -->
+<section class="goals-section analytics-section">
+
+  <div class="section-title">
+    <h2>Goal Analytics</h2>
+  </div>
+
+  <div class="analytics-grid">
+
+    <div class="analytics-card">
+      <span>🎯</span>
+      <div>
+        <p>Total Goals</p>
+        <strong>{{ totalGoals }}</strong>
+      </div>
+    </div>
+
+    <div class="analytics-card">
+      <span>🔥</span>
+      <div>
+        <p>Active Goals</p>
+        <strong>{{ activeGoals.length }}</strong>
+      </div>
+    </div>
+
+    <div class="analytics-card">
+      <span>🏆</span>
+      <div>
+        <p>Completed</p>
+        <strong>{{ completedGoals.length }}</strong>
+      </div>
+    </div>
+
+    <div class="analytics-card">
+      <span>📈</span>
+      <div>
+        <p>Average Progress</p>
+        <strong>{{ averageProgress }}%</strong>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="analytics-progress">
+
+    <div class="analytics-progress-header">
+      <span>Overall Sustainability Progress</span>
+      <strong>{{ averageProgress }}%</strong>
+    </div>
+
+    <div class="progress-bar">
+      <div
+        class="progress-fill"
+        [style.width.%]="averageProgress">
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
 
 <!-- Add Goal Modal -->
 <div
@@ -226,6 +294,40 @@
         placeholder="e.g. Reduce plastic usage">
 
     </div>
+
+    <div class="form-group">
+
+  <label>Goal Type</label>
+
+  <select
+    [(ngModel)]="newGoal.type">
+
+    <option value="">Select goal type</option>
+    <option value="Reduce Carbon Emissions">
+      Reduce Carbon Emissions
+    </option>
+    <option value="Reduce Electricity Consumption">
+      Reduce Electricity Consumption
+    </option>
+    <option value="Reduce Water Usage">
+      Reduce Water Usage
+    </option>
+    <option value="Increase Recycling">
+      Increase Recycling
+    </option>
+    <option value="Reduce Plastic Usage">
+      Reduce Plastic Usage
+    </option>
+    <option value="Use Public Transport">
+      Use Public Transport
+    </option>
+    <option value="Plant Trees">
+      Plant Trees
+    </option>
+
+  </select>
+
+</div>
 
     <div class="form-group">
 
@@ -272,6 +374,132 @@
         class="save-btn"
         (click)="addGoal()">
         Save Goal
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Edit Goal Modal -->
+<div
+  class="modal-overlay"
+  *ngIf="showEditGoal"
+  (click)="closeEditGoal()">
+
+  <div
+    class="modal"
+    (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+
+      <div>
+        <h2>Update Goal</h2>
+        <p>Update your sustainability commitment.</p>
+      </div>
+
+      <button
+        class="close-btn"
+        (click)="closeEditGoal()">
+        ×
+      </button>
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Goal Title</label>
+
+      <input
+        type="text"
+        [(ngModel)]="editGoal.title"
+        placeholder="Goal title">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Goal Type</label>
+
+      <select [(ngModel)]="editGoal.type">
+
+        <option value="Reduce Carbon Emissions">
+          Reduce Carbon Emissions
+        </option>
+
+        <option value="Reduce Electricity Consumption">
+          Reduce Electricity Consumption
+        </option>
+
+        <option value="Reduce Water Usage">
+          Reduce Water Usage
+        </option>
+
+        <option value="Increase Recycling">
+          Increase Recycling
+        </option>
+
+        <option value="Reduce Plastic Usage">
+          Reduce Plastic Usage
+        </option>
+
+        <option value="Use Public Transport">
+          Use Public Transport
+        </option>
+
+        <option value="Plant Trees">
+          Plant Trees
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Target</label>
+
+      <input
+        type="text"
+        [(ngModel)]="editGoal.target">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Deadline</label>
+
+      <input
+        type="date"
+        [(ngModel)]="editGoal.deadline">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Current Progress (%)</label>
+
+      <input
+        type="number"
+        min="0"
+        max="100"
+        [(ngModel)]="editGoal.progress">
+
+    </div>
+
+    <div class="modal-actions">
+
+      <button
+        class="cancel-btn"
+        (click)="closeEditGoal()">
+        Cancel
+      </button>
+
+      <button
+        class="save-btn"
+        (click)="updateGoal()">
+        Update Goal
       </button>
 
     </div>

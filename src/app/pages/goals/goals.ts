@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 interface Goal {
   id: number;
   title: string;
+  type: string;
   target: string;
   deadline: string;
   progress: number;
@@ -16,10 +17,10 @@ interface Goal {
   selector: 'app-goals',
   standalone: true,
   imports: [
-  CommonModule,
-  FormsModule,
-  RouterLink
-],
+    CommonModule,
+    FormsModule,
+    RouterLink
+  ],
   templateUrl: './goals.html',
   styleUrl: './goals.css'
 })
@@ -29,8 +30,30 @@ export class Goals implements OnInit {
 
   showAddGoal = false;
 
+  /* ================================
+     EDIT GOAL
+  ================================= */
+
+  showEditGoal = false;
+
+  editGoal: Goal = {
+    id: 0,
+    title: '',
+    type: '',
+    target: '',
+    deadline: '',
+    progress: 0,
+    completed: false
+  };
+
+
+  /* ================================
+     NEW GOAL
+  ================================= */
+
   newGoal = {
     title: '',
+    type: '',
     target: '',
     deadline: '',
     progress: 0
@@ -57,6 +80,7 @@ export class Goals implements OnInit {
         {
           id: 1,
           title: 'Reduce car usage by 50%',
+          type: 'Reduce Carbon Emissions',
           target: 'Target: 240 km',
           deadline: 'Oct 31, 2026',
           progress: 60,
@@ -65,6 +89,7 @@ export class Goals implements OnInit {
         {
           id: 2,
           title: 'Go completely plastic-free',
+          type: 'Reduce Plastic Usage',
           target: 'Target: 7 days',
           deadline: 'Oct 20, 2026',
           progress: 85,
@@ -73,6 +98,7 @@ export class Goals implements OnInit {
         {
           id: 3,
           title: 'Plant 10 indigenous trees',
+          type: 'Plant Trees',
           target: 'Target: 10 trees',
           deadline: 'Dec 15, 2026',
           progress: 40,
@@ -89,6 +115,15 @@ export class Goals implements OnInit {
     try {
 
       this.goals = JSON.parse(saved);
+
+      /*
+       * Older goals may not have a type because they were
+       * created before Goal Type was added.
+       */
+      this.goals = this.goals.map(goal => ({
+        ...goal,
+        type: goal.type || ''
+      }));
 
     } catch {
 
@@ -153,6 +188,9 @@ export class Goals implements OnInit {
       title:
         this.newGoal.title.trim(),
 
+      type:
+        this.newGoal.type,
+
       target:
         this.newGoal.target.trim(),
 
@@ -162,7 +200,13 @@ export class Goals implements OnInit {
         ),
 
       progress:
-        Number(this.newGoal.progress) || 0,
+        Math.min(
+          Math.max(
+            Number(this.newGoal.progress) || 0,
+            0
+          ),
+          100
+        ),
 
       completed:
         Number(this.newGoal.progress) >= 100
@@ -265,6 +309,142 @@ export class Goals implements OnInit {
 
 
   /* ================================
+     GOAL ANALYTICS
+  ================================= */
+
+  get totalGoals(): number {
+
+    return this.goals.length;
+
+  }
+
+
+  get averageProgress(): number {
+
+    if (this.goals.length === 0) {
+      return 0;
+    }
+
+    const total =
+      this.goals.reduce(
+        (sum, goal) =>
+          sum + goal.progress,
+        0
+      );
+
+    return Math.round(
+      total / this.goals.length
+    );
+
+  }
+
+
+  /* ================================
+     EDIT GOAL
+  ================================= */
+
+  openEditGoal(goal: Goal): void {
+
+    this.editGoal = {
+      ...goal
+    };
+
+    /*
+     * The displayed deadline is like:
+     * "Sep 17, 2026"
+     *
+     * Convert it to:
+     * "2026-09-17"
+     *
+     * so the HTML date input can display it.
+     */
+    this.editGoal.deadline =
+      this.convertDeadlineToInput(
+        goal.deadline
+      );
+
+    this.showEditGoal = true;
+
+  }
+
+
+  closeEditGoal(): void {
+
+    this.showEditGoal = false;
+
+  }
+
+
+  updateGoal(): void {
+
+    if (
+      !this.editGoal.title.trim() ||
+      !this.editGoal.target.trim() ||
+      !this.editGoal.deadline
+    ) {
+
+      return;
+
+    }
+
+
+    const index =
+      this.goals.findIndex(
+        goal =>
+          goal.id === this.editGoal.id
+      );
+
+
+    if (index === -1) {
+      return;
+    }
+
+
+    const updatedProgress =
+      Math.min(
+        Math.max(
+          Number(this.editGoal.progress) || 0,
+          0
+        ),
+        100
+      );
+
+
+    this.goals[index] = {
+
+      ...this.editGoal,
+
+      title:
+        this.editGoal.title.trim(),
+
+      type:
+        this.editGoal.type || '',
+
+      target:
+        this.editGoal.target.trim(),
+
+      deadline:
+        this.formatDeadline(
+          this.editGoal.deadline
+        ),
+
+      progress:
+        updatedProgress,
+
+      completed:
+        updatedProgress >= 100
+
+    };
+
+
+    this.saveGoals();
+
+    this.closeEditGoal();
+
+  }
+
+
+  /* ================================
      DATE
   ================================= */
 
@@ -273,7 +453,9 @@ export class Goals implements OnInit {
   ): string {
 
     const selectedDate =
-      new Date(date + 'T00:00:00');
+      new Date(
+        date + 'T00:00:00'
+      );
 
 
     return selectedDate.toLocaleDateString(
@@ -289,16 +471,79 @@ export class Goals implements OnInit {
 
 
   /* ================================
+     CONVERT DISPLAY DATE
+     TO HTML DATE INPUT
+  ================================= */
+
+  private convertDeadlineToInput(
+    deadline: string
+  ): string {
+
+    /*
+     * If it is already in YYYY-MM-DD format,
+     * return it directly.
+     */
+    if (
+      /^\d{4}-\d{2}-\d{2}$/.test(
+        deadline
+      )
+    ) {
+
+      return deadline;
+
+    }
+
+
+    const date =
+      new Date(deadline);
+
+
+    if (isNaN(date.getTime())) {
+
+      return '';
+
+    }
+
+
+    const year =
+      date.getFullYear();
+
+
+    const month =
+      String(
+        date.getMonth() + 1
+      ).padStart(2, '0');
+
+
+    const day =
+      String(
+        date.getDate()
+      ).padStart(2, '0');
+
+
+    return `${year}-${month}-${day}`;
+
+  }
+
+
+  /* ================================
      RESET FORM
   ================================= */
 
   private resetForm(): void {
 
     this.newGoal = {
+
       title: '',
+
+      type: '',
+
       target: '',
+
       deadline: '',
+
       progress: 0
+
     };
 
   }

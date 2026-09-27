@@ -1,10 +1,12 @@
-<div class="profile-page">
-
+<div class="profile-page" [class.dark-mode]="darkModeEnabled">
+  <!-- Profile Header -->
   <div class="profile-header">
     <h1>My Profile</h1>
     <p>Manage your EcoTrack profile</p>
   </div>
 
+
+  <!-- Profile Card -->
   <div class="profile-card">
 
     <div class="profile-avatar">
@@ -12,36 +14,540 @@
     </div>
 
     <div class="profile-info">
-      <h2>Sandhya</h2>
+      <h2>{{ userName }}</h2>
       <p>EcoTrack User</p>
     </div>
 
   </div>
 
+
+  <!-- Personal Information -->
+  <div class="personal-info-section">
+
+    <div class="personal-info-header">
+
+      <div>
+        <h2>Personal Information</h2>
+        <p>Your personal details</p>
+      </div>
+
+      <button
+        type="button"
+        class="edit-profile-button"
+        (click)="startEditing()">
+        ✏️ Edit Profile
+      </button>
+
+    </div>
+
+
+    <div class="personal-info-card">
+
+      <!-- Full Name -->
+      <div class="personal-row">
+
+        <span class="personal-icon">👤</span>
+
+        <span class="personal-label">
+          Full Name
+        </span>
+
+        <span class="personal-colon">:</span>
+
+        <span class="personal-value">
+          {{ editName }}
+        </span>
+
+      </div>
+
+
+      <!-- Email -->
+      <div class="personal-row">
+
+        <span class="personal-icon">✉️</span>
+
+        <span class="personal-label">
+          Email
+        </span>
+
+        <span class="personal-colon">:</span>
+
+        <span class="personal-value">
+          {{ editEmail }}
+        </span>
+
+      </div>
+
+
+      <!-- Phone -->
+      <div class="personal-row">
+
+        <span class="personal-icon">📞</span>
+
+        <span class="personal-label">
+          Phone
+        </span>
+
+        <span class="personal-colon">:</span>
+
+        <span class="personal-value">
+          {{ editPhone || 'Not added' }}
+        </span>
+
+      </div>
+
+
+      <!-- Location -->
+      <div class="personal-row">
+
+        <span class="personal-icon">📍</span>
+
+        <span class="personal-label">
+          Location
+        </span>
+
+        <span class="personal-colon">:</span>
+
+        <span class="personal-value">
+          {{ editLocation || 'Not added' }}
+        </span>
+
+      </div>
+
+
+      <!-- Date of Birth -->
+      <div class="personal-row">
+
+        <span class="personal-icon">📅</span>
+
+        <span class="personal-label">
+          Date of Birth
+        </span>
+
+        <span class="personal-colon">:</span>
+
+        <span class="personal-value">
+          {{ editDateOfBirth || 'Not added' }}
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Eco Activity Summary -->
+  <div class="activity-summary">
+
+    <div class="summary-header">
+      <h2>Eco Activity Summary</h2>
+      <p>Your environmental activity at a glance</p>
+    </div>
+
+
+    <div class="summary-grid">
+
+      <!-- Eco Points -->
+      <div class="summary-card">
+
+        <div class="summary-icon">
+          🌱
+        </div>
+
+        <div class="summary-info">
+
+          <strong>
+            {{ ecoPoints }}
+          </strong>
+
+          <span>
+            Eco Points
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Waste Recycled -->
+      <div class="summary-card">
+
+        <div class="summary-icon">
+          ♻️
+        </div>
+
+        <div class="summary-info">
+
+          <strong>
+            {{ wasteRecycled }} kg
+          </strong>
+
+          <span>
+            Waste Recycled
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- CO2 Saved -->
+      <div class="summary-card">
+
+        <div class="summary-icon">
+          ☁️
+        </div>
+
+        <div class="summary-info">
+
+          <strong>
+            {{ co2Saved }} kg
+          </strong>
+
+          <span>
+            CO₂ Saved
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Items Recycled -->
+      <div class="summary-card">
+
+        <div class="summary-icon">
+          📊
+        </div>
+
+        <div class="summary-info">
+
+          <strong>
+            {{ itemsRecycled }}
+          </strong>
+
+          <span>
+            Items Recycled
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Profile Details -->
   <div class="profile-details">
 
+    <!-- Eco Points -->
     <div class="detail-card">
+
       <span>🌱</span>
+
       <div>
         <h3>Eco Points</h3>
-        <p>0 Points</p>
+
+        <p>
+          {{ ecoPoints }} Points
+        </p>
       </div>
+
     </div>
 
+
+    <!-- Current Streak -->
     <div class="detail-card">
+
       <span>🔥</span>
+
       <div>
         <h3>Current Streak</h3>
-        <p>0 Days</p>
+
+        <p>
+          {{ currentStreak }} Days
+        </p>
       </div>
+
     </div>
 
+
+    <!-- Challenges Completed -->
     <div class="detail-card">
+
       <span>🏆</span>
+
       <div>
         <h3>Challenges Completed</h3>
-        <p>0 Challenges</p>
+
+        <p>
+          {{ challengesCompleted }} Challenges
+        </p>
       </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Preferences -->
+  <div class="preferences-section">
+
+    <div class="preferences-card">
+
+      <h2>Preferences</h2>
+
+
+      <!-- Notifications -->
+      <div class="preference-row">
+
+        <div class="preference-left">
+
+          <span class="preference-icon">
+            🔔
+          </span>
+
+          <span>
+            Notifications
+          </span>
+
+        </div>
+
+        <button
+          type="button"
+          class="toggle"
+          [class.active]="notificationsEnabled"
+          (click)="toggleNotifications()">
+
+          <span></span>
+
+        </button>
+
+      </div>
+
+
+      <!-- Language -->
+      <div class="preference-row">
+
+        <div class="preference-left">
+
+          <span class="preference-icon">
+            🌐
+          </span>
+
+          <span>
+            Language
+          </span>
+
+        </div>
+
+        <select
+          class="language-select"
+          [(ngModel)]="selectedLanguage">
+
+          <option value="English">
+            English
+          </option>
+
+          <option value="Hindi">
+            Hindi
+          </option>
+
+          <option value="Telugu">
+            Telugu
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- Location Services -->
+      <div class="preference-row">
+
+        <div class="preference-left">
+
+          <span class="preference-icon">
+            📍
+          </span>
+
+          <span>
+            Location Services
+          </span>
+
+        </div>
+
+        <button
+          type="button"
+          class="toggle"
+          [class.active]="locationServicesEnabled"
+          (click)="toggleLocationServices()">
+
+          <span></span>
+
+        </button>
+
+      </div>
+
+
+      <!-- Dark Mode -->
+      <div class="preference-row">
+
+        <div class="preference-left">
+
+          <span class="preference-icon">
+            🌙
+          </span>
+
+          <span>
+            Dark Mode
+          </span>
+
+        </div>
+
+        <button
+          type="button"
+          class="toggle"
+          [class.active]="darkModeEnabled"
+          (click)="toggleDarkMode()">
+
+          <span></span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Edit Profile Modal -->
+  <div
+    class="modal-overlay"
+    *ngIf="isEditing"
+    (click)="cancelEditing()">
+
+    <div
+      class="edit-modal"
+      (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+
+        <h2>Edit Profile</h2>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="cancelEditing()">
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+        <div class="modal-avatar">
+          👤
+        </div>
+
+
+        <!-- Full Name -->
+        <div class="form-group">
+
+          <label>
+            Full Name
+          </label>
+
+          <input
+            type="text"
+            [(ngModel)]="editName">
+
+        </div>
+
+
+        <!-- Email -->
+        <div class="form-group">
+
+          <label>
+            Email
+          </label>
+
+          <input
+            type="email"
+            [(ngModel)]="editEmail">
+
+        </div>
+
+
+        <!-- Phone -->
+        <div class="form-group">
+
+          <label>
+            Phone
+          </label>
+
+          <input
+            type="text"
+            [(ngModel)]="editPhone"
+            placeholder="Enter phone number">
+
+        </div>
+
+
+        <!-- Location -->
+        <div class="form-group">
+
+          <label>
+            Location
+          </label>
+
+          <input
+            type="text"
+            [(ngModel)]="editLocation"
+            placeholder="Enter location">
+
+        </div>
+
+
+        <!-- Date of Birth -->
+        <div class="form-group">
+
+          <label>
+            Date of Birth
+          </label>
+
+          <input
+            type="date"
+            [(ngModel)]="editDateOfBirth">
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="cancelEditing()">
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="save-button"
+          (click)="savePersonalInfo()">
+          Save Changes
+        </button>
+
+      </div>
+
     </div>
 
   </div>

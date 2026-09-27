@@ -98,6 +98,7 @@
   width: calc(100% - 250px);
   padding: 42px 48px;
   max-width: 1500px;
+  overflow-x: hidden;
 }
 
 .page-header {
@@ -524,4 +525,149 @@
   .goals-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ================================
+   Edit Button
+================================ */
+
+.edit-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  color: #287a45;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+.edit-btn:hover {
+  background: #eaf6ed;
+}
+
+/* ================================
+   Goal Type Select
+================================ */
+
+.form-group select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #d9e1dc;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  background: #ffffff;
+  color: #34423a;
+}
+
+.form-group select:focus {
+  border-color: #4ba967;
+  box-shadow: 0 0 0 3px rgba(75, 169, 103, 0.1);
+}
+
+/* ================================
+   Analytics
+================================ */
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.analytics-card {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  background: #ffffff;
+  border: 1px solid #e5ebe7;
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.analytics-card > span {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #eef8f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+}
+
+.analytics-card p {
+  margin: 0 0 4px;
+  color: #7b8794;
+  font-size: 12px;
+}
+
+.analytics-card strong {
+  color: #287a45;
+  font-size: 16px;
+}
+
+.analytics-progress {
+  margin-top: 18px;
+  background: #ffffff;
+  border: 1px solid #e5ebe7;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.analytics-progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #52605a;
+  font-size: 13px;
+}
+
+.analytics-progress-header strong {
+  color: #287a45;
+}
+
+/* ================================
+   Analytics Responsive
+================================ */
+
+@media (max-width: 900px) {
+  .analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+:host-context(body.dark-mode) .goal-card h3 {
+  color: #400d0d !important;
+}
+
+:host-context(body.dark-mode) .goal-card .goal-target {
+  color: #040c16 !important;
+}
+
+
+:host-context(body.dark-mode) .completed-info h3 {
+  color: #1b1453 !important;
+}
+
+:host-context(body.dark-mode) .completed-info p {
+  color: #0a3472 !important;
 }

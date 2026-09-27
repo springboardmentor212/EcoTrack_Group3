@@ -661,3 +661,28 @@
   }
 
 }
+
+
+:host-context(body.dark-mode) .progress-section h2 {
+  color: #2a2828 !important;
+}
+
+:host-context(body.dark-mode) .progress-section p {
+  color: #232932 !important;
+}
+
+
+:host-context(body.dark-mode) .challenge-card h3,
+:host-context(body.dark-mode) .challenge-card h4,
+:host-context(body.dark-mode) .challenge-card p {
+  color: #161515 !important;
+}
+
+
+:host-context(body.dark-mode) .summary-content strong {
+  color: #ffffff !important;
+}
+
+:host-context(body.dark-mode) .summary-content span {
+  color: #d1d5db !important;
+}

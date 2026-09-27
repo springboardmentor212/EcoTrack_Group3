@@ -1,4 +1,3 @@
-
 <div class="challenges-page">
 
   <!-- ================= HEADER ================= -->
@@ -169,7 +168,6 @@
       Completed
 
     </button>
-
 
   </div>
 
@@ -443,11 +441,11 @@
 
   <div
     class="reward-section"
-    [class.all-completed]="completedCount === 3">
+    [class.all-completed]="rewardUnlocked">
 
     <div class="reward-icon">
 
-      {{ completedCount === 3 ? '🎉' : '🏆' }}
+      {{ rewardUnlocked ? '🎉' : '🏆' }}
 
     </div>
 
@@ -456,7 +454,7 @@
 
       <h2>
 
-        {{ completedCount === 3
+        {{ rewardUnlocked
           ? 'Amazing Work!'
           : 'Keep Going!'
         }}
@@ -467,7 +465,7 @@
       <p>
 
         {{
-          completedCount === 3
+          rewardUnlocked
             ? 'You completed all 3 challenges today and earned your special sticker! 🎖️'
             : 'Complete all 3 challenges today to earn a special sticker.'
         }}
@@ -479,7 +477,7 @@
 
       <div
         class="special-reward"
-        *ngIf="completedCount === 3">
+        *ngIf="rewardUnlocked">
 
         <div class="reward-sticker">
           🏅
@@ -492,9 +490,11 @@
             Daily Champion 🎖️
           </strong>
 
+
           <span>
             You earned your special sticker!
           </span>
+
 
           <small>
             ⭐ +50 Bonus Points

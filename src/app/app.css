@@ -283,3 +283,20 @@
     font-size: 31px;
   }
 }
+
+/* Global Dark Mode */
+body.dark-mode {
+  background: #111827;
+  color: #f9fafb;
+}
+
+body.dark-mode .page,
+body.dark-mode .dashboard-page,
+body.dark-mode .goals-page,
+body.dark-mode .challenges-page,
+body.dark-mode .report-page,
+body.dark-mode .carbon-footprint-page,
+body.dark-mode .track-activity-page {
+  background: #111827;
+  color: #f9fafb;
+}

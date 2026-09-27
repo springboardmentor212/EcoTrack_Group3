@@ -1,0 +1,559 @@
+<div class="report-page">
+
+  <!-- ================= HEADER ================= -->
+
+  <div class="report-header">
+
+    <div>
+      <h1>Environmental Report</h1>
+
+      <p>
+        Here is your ecological footprint summary and progress.
+      </p>
+    </div>
+
+    <div class="report-period">
+
+      <span>REPORT PERIOD</span>
+
+      <strong>This Month</strong>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= SUMMARY ================= -->
+
+  <section class="summary-grid">
+
+    <div class="summary-card">
+
+      <span class="summary-label">
+        TOTAL CARBON FOOTPRINT
+      </span>
+
+      <strong class="summary-value">
+
+        {{ totalCarbon }}
+
+        <small>
+          kg CO₂
+        </small>
+
+      </strong>
+
+      <span class="summary-change">
+        Your recorded emissions
+      </span>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <span class="summary-label">
+        SUSTAINABILITY SCORE
+      </span>
+
+      <strong class="summary-value">
+
+        {{ sustainabilityScore }}
+
+        <small>
+          /100
+        </small>
+
+      </strong>
+
+      <span class="summary-change">
+        Current score
+      </span>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <span class="summary-label">
+        ECO POINTS
+      </span>
+
+      <strong class="summary-value">
+
+        {{ ecoPoints }}
+
+        <small>
+          pts
+        </small>
+
+      </strong>
+
+      <span class="summary-change">
+        Current points
+      </span>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <span class="summary-label">
+        ACTIVITIES COMPLETED
+      </span>
+
+      <strong class="summary-value">
+
+        {{ activitiesCompleted }}
+
+      </strong>
+
+      <span class="summary-change">
+        Recorded activities
+      </span>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= CARBON OVERVIEW ================= -->
+<section class="report-card">
+
+  <div class="section-header">
+
+    <div>
+
+      <h2>
+        Carbon Footprint Overview
+      </h2>
+
+      <p>
+        Your estimated emissions from your recorded activities.
+      </p>
+
+    </div>
+
+    <span class="section-icon">
+      🌱
+    </span>
+
+  </div>
+
+
+  <div class="carbon-overview">
+
+    <div
+  class="carbon-circle"
+  [style.--carbon-percentage]="carbonPercentage"
+>
+  <div class="carbon-circle-inner">
+
+    <strong>
+      {{ totalCarbon }}
+    </strong>
+
+    <span>
+      kg CO₂
+    </span>
+
+  </div>
+</div>
+
+
+    <div class="carbon-details">
+
+      <div class="detail-row">
+
+        <span>
+          Transport
+        </span>
+
+        <strong>
+          {{ transportCarbon }} kg
+        </strong>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <span>
+          Energy
+        </span>
+
+        <strong>
+          {{ energyCarbon }} kg
+        </strong>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <span>
+          Food
+        </span>
+
+        <strong>
+          {{ foodCarbon }} kg
+        </strong>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <span>
+          Other
+        </span>
+
+        <strong>
+          {{ otherCarbon }} kg
+        </strong>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+  <!-- ================= ACTIVITY SUMMARY ================= -->
+
+  <section class="report-card">
+
+    <div class="section-header">
+
+      <div>
+
+        <h2>
+          Activity Summary
+        </h2>
+
+        <p>
+          Your recorded eco-friendly activities.
+        </p>
+
+      </div>
+
+      <span class="section-icon">
+        ♻️
+      </span>
+
+    </div>
+
+
+    <div class="activity-grid">
+
+      <!-- WALKING -->
+
+      <div class="activity-report-item">
+
+        <div class="activity-report-icon">
+          🚶
+        </div>
+
+        <div>
+
+          <strong>
+            Walking
+          </strong>
+
+          <span>
+            {{ walkingActivities }} activities
+          </span>
+
+        </div>
+
+        <strong class="activity-number">
+          {{ walkingMinutes }} min
+        </strong>
+
+      </div>
+
+
+      <!-- CYCLING -->
+
+      <div class="activity-report-item">
+
+        <div class="activity-report-icon">
+          🚲
+        </div>
+
+        <div>
+
+          <strong>
+            Cycling
+          </strong>
+
+          <span>
+            {{ cyclingActivities }} activities
+          </span>
+
+        </div>
+
+        <strong class="activity-number">
+          {{ cyclingMinutes }} min
+        </strong>
+
+      </div>
+
+
+      <!-- RUNNING -->
+
+      <div class="activity-report-item">
+
+        <div class="activity-report-icon">
+          🏃
+        </div>
+
+        <div>
+
+          <strong>
+            Running
+          </strong>
+
+          <span>
+            {{ runningActivities }} activities
+          </span>
+
+        </div>
+
+        <strong class="activity-number">
+          {{ runningMinutes }} min
+        </strong>
+
+      </div>
+
+
+      <!-- OTHER -->
+
+      <div class="activity-report-item">
+
+        <div class="activity-report-icon">
+          🌱
+        </div>
+
+        <div>
+
+          <strong>
+            Other Activities
+          </strong>
+
+          <span>
+            {{ otherActivities }} activities
+          </span>
+
+        </div>
+
+        <strong class="activity-number">
+          {{ otherMinutes }} min
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= GOALS & CHALLENGES ================= -->
+
+  <section class="bottom-grid">
+
+
+    <!-- GOALS -->
+
+    <div class="report-card">
+
+      <div class="section-header">
+
+        <div>
+
+          <h2>
+            Goals Progress
+          </h2>
+
+          <p>
+            Your current sustainability goals.
+          </p>
+
+        </div>
+
+        <span class="section-icon">
+          🎯
+        </span>
+
+      </div>
+
+
+      <div class="goal-item">
+
+        <div class="goal-top">
+
+          <strong>
+            Reduce Carbon Footprint
+          </strong>
+
+          <span>
+            72%
+          </span>
+
+        </div>
+
+        <div class="report-progress">
+
+          <div
+            class="report-progress-fill"
+            style="width: 72%;">
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="goal-item">
+
+        <div class="goal-top">
+
+          <strong>
+            Sustainable Transport
+          </strong>
+
+          <span>
+            60%
+          </span>
+
+        </div>
+
+        <div class="report-progress">
+
+          <div
+            class="report-progress-fill"
+            style="width: 60%;">
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="goal-item">
+
+        <div class="goal-top">
+
+          <strong>
+            Reduce Waste
+          </strong>
+
+          <span>
+            85%
+          </span>
+
+        </div>
+
+        <div class="report-progress">
+
+          <div
+            class="report-progress-fill"
+            style="width: 85%;">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- CHALLENGES -->
+
+    <div class="report-card">
+
+      <div class="section-header">
+
+        <div>
+
+          <h2>
+            Challenges
+          </h2>
+
+          <p>
+            Your challenge performance.
+          </p>
+
+        </div>
+
+        <span class="section-icon">
+          🏆
+        </span>
+
+      </div>
+
+
+      <div class="challenge-report">
+
+        <div>
+
+          <strong>
+            Challenges Completed
+          </strong>
+
+          <span>
+            {{ challengesCompleted }} / {{ totalChallenges }}
+          </span>
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Points Earned
+          </strong>
+
+          <span>
+            +{{ challengePoints }} pts
+          </span>
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Current Streak
+          </strong>
+
+          <span>
+            {{ currentStreak }} days 🔥
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <div class="report-footer">
+
+    <span>
+      🌱 Keep making sustainable choices.
+    </span>
+
+    <strong>
+      Every small action matters.
+    </strong>
+
+  </div>
+
+</div>

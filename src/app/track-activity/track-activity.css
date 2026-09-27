@@ -651,18 +651,27 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 13px;
-  border-bottom: 1px solid #edf0ed;
+  border-bottom: 1px solid #776d6d;
 }
 
 .comparison-header h2 {
   margin: 0;
   font-size: 16px;
+
 }
 
 .comparison-header p {
   margin: 4px 0 0;
   font-size: 11px;
   color: #929c94;
+}
+
+body.dark-mode .comparison-header h2 {
+  color: #1f2937 !important;
+}
+
+body.dark-mode .comparison-header p {
+  color: #6b7280 !important;
 }
 
 .comparison-badge {
@@ -747,4 +756,24 @@
     gap: 10px;
     flex-direction: column;
   }
+}
+
+body.dark-mode .comparison-header h2 {
+  color: #e5e7eb !important;
+}
+
+body.dark-mode .comparison-header p {
+  color: #86efac !important;
+}
+
+body.dark-mode .comparison-header p {
+  color: #cbd5e1 !important;
+}
+
+:host-context(body.dark-mode) .comparison-header h2 {
+  color: #121212 !important;
+}
+
+:host-context(body.dark-mode) .comparison-header p {
+  color: #3f5f8f !important;
 }
