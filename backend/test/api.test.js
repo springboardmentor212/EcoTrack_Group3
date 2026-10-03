@@ -257,3 +257,102 @@ test("malformed resource identifiers return client errors", async () => {
   });
   assert.equal(result.response.status, 400);
 });
+
+
+test("milestone 2 carbon engine, search/filter, update, and dashboard analytics work", async () => {
+  const categories = await request("/api/carbon-records/categories", { token });
+  assert.equal(categories.response.status, 200);
+  assert.equal(categories.body.success, true);
+  assert.ok(categories.body.data.some((item) => item.name === "Transportation"));
+
+  const calculated = await request("/api/carbon-records", {
+    method: "POST",
+    token,
+    body: {
+      category: "Electricity Usage",
+      amount: 100,
+      date: "2026-10-01",
+    },
+  });
+  assert.equal(calculated.response.status, 201);
+  assert.equal(calculated.body.data.emission, 82);
+  assert.equal(calculated.body.calculation.emission, 82);
+
+  const filtered = await request(
+    "/api/carbon-records?category=Electricity%20Usage&startDate=2026-10-01&endDate=2026-10-31",
+    { token }
+  );
+  assert.equal(filtered.response.status, 200);
+  assert.equal(filtered.body.total, 1);
+
+  const updated = await request(
+    `/api/carbon-records/${calculated.body.data._id}`,
+    {
+      method: "PUT",
+      token,
+      body: {
+        category: "Transportation",
+        amount: 20,
+        date: "2026-10-02",
+      },
+    }
+  );
+  assert.equal(updated.response.status, 200);
+  assert.equal(updated.body.data.emission, 4.2);
+
+  const search = await request("/api/carbon-records?search=transport", {
+    token,
+  });
+  assert.equal(search.response.status, 200);
+  assert.ok(search.body.total >= 1);
+
+  const dashboard = await request("/api/dashboard/stats?period=month", {
+    token,
+  });
+  assert.equal(dashboard.response.status, 200);
+  assert.equal(dashboard.body.data.period, "month");
+  assert.ok(Array.isArray(dashboard.body.data.categoryBreakdown));
+  assert.ok(Array.isArray(dashboard.body.data.trend));
+  assert.ok(dashboard.body.data.sustainability);
+});
+
+
+test("milestone 2 goal search and status filters work", async () => {
+  const completed = await request("/api/goals", {
+    method: "POST",
+    token,
+    body: {
+      title: "Completed recycling goal",
+      target: "10 kg",
+      deadline: "2026-10-01",
+      progress: 100,
+    },
+  });
+  assert.equal(completed.response.status, 201);
+
+  const active = await request("/api/goals", {
+    method: "POST",
+    token,
+    body: {
+      title: "Active transport goal",
+      target: "50 km",
+      deadline: "2026-12-31",
+      progress: 25,
+    },
+  });
+  assert.equal(active.response.status, 201);
+
+  const activeGoals = await request("/api/goals?status=active", { token });
+  assert.equal(activeGoals.response.status, 200);
+  assert.ok(activeGoals.body.data.every((goal) => goal.completed === false));
+
+  const completedGoals = await request("/api/goals?status=completed", {
+    token,
+  });
+  assert.equal(completedGoals.response.status, 200);
+  assert.ok(completedGoals.body.data.some((goal) => goal.title.includes("Completed")));
+
+  const searched = await request("/api/goals?search=transport", { token });
+  assert.equal(searched.response.status, 200);
+  assert.ok(searched.body.data.some((goal) => goal.title.includes("transport")));
+});
