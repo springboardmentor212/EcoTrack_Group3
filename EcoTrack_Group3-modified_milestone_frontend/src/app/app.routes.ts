@@ -10,8 +10,11 @@ import { CarbonTracking } from './carbon-tracking/carbon-tracking';
 import { Goals } from './pages/goals/goals';
 import { Login } from './pages/login/login';
 import { Challenges } from './pages/challenges/challenges';
+import { Users } from './pages/admin/users/users';
+import { AdminChallenges } from './pages/admin/challenges/challenges';
 
 import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
 
@@ -107,6 +110,24 @@ export const routes: Routes = [
   {
     path: 'forgot-password',
     component: ForgotPassword
+  },
+
+  // =========================
+  // ADMIN - USERS 🔐
+  // =========================
+  {
+    path: 'admin/users',
+    component: Users,
+    canActivate: [adminGuard]
+  },
+
+  //==========================
+  // ADMIN - CHALLENGES
+  //==========================
+  {
+    path: 'admin/challenges',
+    component: AdminChallenges,
+    canActivate: [adminGuard]
   },
 
   // =========================

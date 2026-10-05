@@ -1,0 +1,36 @@
+.admin-challenges {
+  padding: 24px;
+}
+
+.admin-challenges h1 {
+  margin-bottom: 20px;
+}
+
+.challenges-table {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  font-weight: 600;
+}
+
+td small {
+  color: #666;
+}
+
+td {
+  vertical-align: top;
+}

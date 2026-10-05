@@ -1,0 +1,23 @@
+.admin-users {
+    padding: 24px;
+}
+
+.admin-users h1{
+    margin-bottom: 20px;
+}
+
+.users-table {
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th,td{
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+th{
+    font-weigth: 600;
+}

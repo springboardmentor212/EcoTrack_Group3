@@ -1,0 +1,55 @@
+<div class="admin-challenges">
+  <h1>Challenges</h1>
+
+  <div class="challenges-table" *ngIf="challenges.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Challenge</th>
+          <th>User</th>
+          <th>Type</th>
+          <th>Target</th>
+          <th>Progress</th>
+          <th>Points</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let challenge of challenges">
+          <td>{{ challenge.title }}</td>
+
+          <td>
+            <div *ngIf="challenge.userId">
+              {{ challenge.userId.name }}<br>
+              <small>{{ challenge.userId.email }}</small>
+            </div>
+            <span *ngIf="!challenge.userId">Unknown user</span>
+          </td>
+
+          <td>{{ challenge.type }}</td>
+
+          <td>
+            {{ challenge.target }} {{ challenge.unit }}
+          </td>
+
+          <td>
+            {{ challenge.progress }} {{ challenge.unit }}
+          </td>
+
+          <td>
+            {{ challenge.points }}
+          </td>
+
+          <td>
+            {{ challenge.completed ? 'Completed' : 'Active' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p *ngIf="challenges.length === 0">
+    No challenges found.
+  </p>
+</div>
