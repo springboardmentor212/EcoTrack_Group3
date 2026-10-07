@@ -26,105 +26,68 @@ import { AuthService }
 
 
 interface LeaderboardMember {
-
   name: string;
-
   avatar: string;
-
   steps: number;
-
   activities: number;
-
   points: number;
-
   rank: number;
-
   you?: boolean;
-
 }
 
 
 @Component({
-
   selector: 'app-dashboard',
-
   standalone: true,
-
   imports: [
     RouterLink,
     CommonModule
   ],
-
   templateUrl: './dashboard.html',
-
   styleUrl: './dashboard.css'
-
 })
 
 
-export class Dashboard
-  implements OnInit, OnDestroy {
-
+export class Dashboard implements OnInit, OnDestroy {
 
   userName = 'User';
-
   userEmail = '';
 
   currentUserPoints = 0;
-
   currentUserRank = 1;
-
 
   activities: Activity[] = [];
 
   totalMinutes = 0;
-
   totalCalories = 0;
-
   activityCount = 0;
-
 
   totalCarbon = 0;
 
-
   totalGoals = 0;
-
   completedGoals = 0;
-
 
   leaderboard: LeaderboardMember[] = [];
 
-
-  private activitySubscription?:
-    Subscription;
-
-  private carbonSubscription?:
-    Subscription;
+  private activitySubscription?: Subscription;
+  private carbonSubscription?: Subscription;
 
 
   constructor(
-
-    private activityService:
-      ActivityService,
-
-    private carbonService:
-      CarbonService,
-
-    private authService:
-      AuthService,
-
-    private router:
-      Router
-
+    private activityService: ActivityService,
+    private carbonService: CarbonService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
 
+  // =========================
+  // PAGE INITIALIZATION
+  // =========================
+
   ngOnInit(): void {
 
-
-    const user =
-      this.authService.getUser();
-
+    const user = this.authService.getUser();
 
     if (user) {
 
@@ -135,116 +98,203 @@ export class Dashboard
         user.email || '';
 
       this.currentUserPoints =
-        Number(
-          user.totalPoints || 0
-        );
-
-
-      this.leaderboard = [
-
-        {
-
-          name:
-            this.userName,
-
-          avatar:
-            '👤',
-
-          steps:
-            0,
-
-          activities:
-            0,
-
-          points:
-            this.currentUserPoints,
-
-          rank:
-            1,
-
-          you:
-            true
-
-        }
-
-      ];
-
+        Number(user.totalPoints || 0);
     }
 
 
+    // Load leaderboard
+    this.loadLeaderboard();
+
+
+    // Load activities
     this.activitySubscription =
-      this.activityService
-        .activities$
-        .subscribe(
-          (activities: Activity[]) => {
+      this.activityService.activities$.subscribe(
+        (activities: Activity[]) => {
 
-            this.activities =
-              activities;
+          this.activities =
+            activities;
 
-            this.totalMinutes =
-              this.activityService
-                .getTotalMinutes();
+          this.totalMinutes =
+            this.activityService.getTotalMinutes();
 
-            this.totalCalories =
-              this.activityService
-                .getTotalCalories();
+          this.totalCalories =
+            this.activityService.getTotalCalories();
 
-            this.activityCount =
-              this.activityService
-                .getActivityCount();
-
-          }
-        );
+          this.activityCount =
+            this.activityService.getActivityCount();
+        }
+      );
 
 
+    // Load carbon data
     this.updateCarbonTotal();
 
 
     this.carbonSubscription =
-      this.carbonService
-        .carbonRecords$
-        .subscribe(() => {
-
+      this.carbonService.carbonRecords$.subscribe(
+        () => {
           this.updateCarbonTotal();
+        }
+      );
 
-        });
 
-
+    // Load goals
     this.updateGoalProgress();
-
   }
 
+
+  // =========================
+  // LOAD LEADERBOARD
+  // =========================
+
+  async loadLeaderboard(): Promise<void> {
+
+    try {
+
+      // Get token from AuthService
+      const token =
+        this.authService.getToken();
+
+
+      if (!token) {
+
+        console.error(
+          'No authentication token found'
+        );
+
+        return;
+      }
+
+
+      // Call backend leaderboard API
+      const response =
+        await fetch(
+          'http://localhost:5000/api/dashboard/leaderboard',
+          {
+            method: 'GET',
+
+            headers: {
+              'Content-Type':
+                'application/json',
+
+              'Authorization':
+                `Bearer ${token}`
+            }
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      console.log(
+        'Leaderboard response:',
+        data
+      );
+
+
+      if (
+        !response.ok ||
+        !data.success
+      ) {
+
+        console.error(
+          'Leaderboard API error:',
+          data.message
+        );
+
+        return;
+      }
+
+
+      // Convert backend data
+      // into frontend leaderboard format
+      this.leaderboard =
+        (data.leaderboard || [])
+          .map((member: any) => ({
+
+            name:
+              member.name || 'User',
+
+            avatar:
+              member.avatar || '👤',
+
+            steps:
+              Number(member.steps || 0),
+
+            activities:
+              Number(member.activities || 0),
+
+            points:
+              Number(member.points || 0),
+
+            rank:
+              Number(member.rank || 0),
+
+            you:
+              member.you === true
+          }));
+
+
+      // Find current logged-in user
+      const currentUser =
+        this.leaderboard.find(
+          member =>
+            member.you === true
+        );
+
+
+      if (currentUser) {
+
+        this.currentUserPoints =
+          currentUser.points;
+
+        this.currentUserRank =
+          currentUser.rank;
+      }
+
+    }
+
+    catch (error) {
+
+      console.error(
+        'Failed to load leaderboard:',
+        error
+      );
+    }
+  }
+
+
+  // =========================
+  // CARBON TOTAL
+  // =========================
 
   private updateCarbonTotal(): void {
 
     const records =
-      this.carbonService
-        .getRecords();
+      this.carbonService.getRecords();
 
 
     this.totalCarbon =
       records.reduce(
-
         (total, record) =>
-
           total +
-          Number(
-            record.emission
-          ),
-
+          Number(record.emission),
         0
-
       );
 
 
     this.totalCarbon =
       Number(
-        this.totalCarbon
-          .toFixed(2)
+        this.totalCarbon.toFixed(2)
       );
-
   }
 
+
+  // =========================
+  // GOAL PROGRESS
+  // =========================
 
   private updateGoalProgress(): void {
 
@@ -257,25 +307,19 @@ export class Dashboard
     if (!savedGoals) {
 
       this.totalGoals = 0;
-
       this.completedGoals = 0;
 
       return;
-
     }
 
 
     try {
 
       const goals =
-        JSON.parse(
-          savedGoals
-        );
+        JSON.parse(savedGoals);
 
 
-      if (
-        Array.isArray(goals)
-      ) {
+      if (Array.isArray(goals)) {
 
         this.totalGoals =
           goals.length;
@@ -284,35 +328,31 @@ export class Dashboard
         this.completedGoals =
           goals.filter(
             (goal: any) =>
-
               goal.completed === true ||
-
-              Number(
-                goal.progress
-              ) >= 100
-
+              Number(goal.progress) >= 100
           ).length;
-
-
-      } else {
-
-        this.totalGoals = 0;
-
-        this.completedGoals = 0;
 
       }
 
+      else {
 
-    } catch {
-
-      this.totalGoals = 0;
-
-      this.completedGoals = 0;
+        this.totalGoals = 0;
+        this.completedGoals = 0;
+      }
 
     }
 
+    catch {
+
+      this.totalGoals = 0;
+      this.completedGoals = 0;
+    }
   }
 
+
+  // =========================
+  // LOGOUT
+  // =========================
 
   logout(): void {
 
@@ -321,9 +361,12 @@ export class Dashboard
     this.router.navigate([
       '/login'
     ]);
-
   }
 
+
+  // =========================
+  // DESTROY
+  // =========================
 
   ngOnDestroy(): void {
 
@@ -332,9 +375,12 @@ export class Dashboard
 
     this.carbonSubscription
       ?.unsubscribe();
-
   }
 
+
+  // =========================
+  // FORMAT ACTIVITY DATE
+  // =========================
 
   formatDate(
     date: string
@@ -363,7 +409,6 @@ export class Dashboard
     ) {
 
       return 'Today';
-
     }
 
 
@@ -375,47 +420,40 @@ export class Dashboard
     ) {
 
       return 'Yesterday';
-
     }
 
 
-    return activityDate
-      .toLocaleDateString(
-        'en-US',
-        {
-          month: 'short',
-          day: 'numeric'
-        }
-      );
-
+    return activityDate.toLocaleDateString(
+      'en-US',
+      {
+        month: 'short',
+        day: 'numeric'
+      }
+    );
   }
 
 
+  // =========================
+  // CHECK SAME DAY
+  // =========================
+
   private isSameDay(
-
     first: Date,
-
     second: Date
-
   ): boolean {
 
     return (
 
       first.getFullYear() ===
-      second.getFullYear()
-
-      &&
+      second.getFullYear() &&
 
       first.getMonth() ===
-      second.getMonth()
-
-      &&
+      second.getMonth() &&
 
       first.getDate() ===
       second.getDate()
 
     );
-
   }
 
 }

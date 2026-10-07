@@ -27,6 +27,8 @@ const auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
+    console.error("JWT ERROR:", error.name, error.message);
+
     res.status(401).json({
       success: false,
       message: "Token is not valid",

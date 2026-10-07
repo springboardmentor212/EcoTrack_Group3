@@ -1,35 +1,74 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
   imports: [RouterLink],
   templateUrl: './forgot-password.html',
-  styleUrl: './forgot-password.css'
+  styleUrl: './forgot-password.css',
 })
 export class ForgotPassword {
 
-  resetPassword(email: string): void {
+  constructor(private router: Router) {}
 
-    // Remove extra spaces from the beginning and end
+  async resetPassword(email: string): Promise<void> {
+
     email = email.trim();
 
-    // Check if the email field is empty
-    if (email === '') {
-      alert('Please enter your email address.');
+    if (!email) {
+      alert('Please enter your email address');
       return;
     }
 
-    // Check whether the email format is valid
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Your EcoTrack frontend currently requires Gmail addresses
+    const gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
-    if (!emailPattern.test(email)) {
-      alert('Please enter a valid email address.');
+    if (!gmailPattern.test(email)) {
+      alert('Please enter a valid Gmail address.');
       return;
     }
 
-    // For now, only frontend validation is implemented.
-    // Backend password-reset integration will be added next.
-    alert('Email address is valid. We can now proceed with password reset.');
+    try {
+
+      const response = await fetch(
+        'http://localhost:5000/api/auth/forgot-password',
+        {
+          method: 'POST',
+
+          headers: {
+            'Content-Type': 'application/json',
+          },
+
+          body: JSON.stringify({
+            email: email,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      console.log('Forgot password response:', data);
+
+      if (data.success) {
+
+        alert(
+          'Password reset link has been sent to your email. Please check your Gmail inbox.'
+        );
+
+      } else {
+
+        alert(
+          data.message || 'Unable to send password reset link.'
+        );
+      }
+
+    } catch (error) {
+
+      console.error('Forgot password error:', error);
+
+      alert(
+        'Cannot connect to the backend. Please make sure the backend is running.'
+      );
+    }
   }
 }
