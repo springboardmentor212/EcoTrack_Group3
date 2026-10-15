@@ -10,8 +10,11 @@ import { CarbonTracking } from './carbon-tracking/carbon-tracking';
 import { Goals } from './pages/goals/goals';
 import { Login } from './pages/login/login';
 import { Challenges } from './pages/challenges/challenges';
+import { AdminReports } from './pages/admin/reports/reports';
+import { AdminLayout } from './pages/admin/layout/layout';
 import { Users } from './pages/admin/users/users';
 import { AdminChallenges } from './pages/admin/challenges/challenges';
+import { AdminLogin } from './pages/admin/login/admin-login';
 
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
@@ -112,23 +115,45 @@ export const routes: Routes = [
     component: ForgotPassword
   },
 
-  // =========================
-  // ADMIN - USERS 🔐
-  // =========================
+  //==========================
+  // ADMIN-LOGIN
+  //==========================
   {
-    path: 'admin/users',
-    component: Users,
-    canActivate: [adminGuard]
+    path: 'admin/login',
+    component: AdminLogin
   },
 
-  //==========================
-  // ADMIN - CHALLENGES
-  //==========================
+  // =========================
+  // ADMIN - PANEL🔐
+  // =========================
   {
-    path: 'admin/challenges',
-    component: AdminChallenges,
-    canActivate: [adminGuard]
-  },
+  path: 'admin',
+  component: AdminLayout,
+  canActivate: [adminGuard],
+  children: [
+
+    {
+      path: '',
+      redirectTo: 'users',
+      pathMatch: 'full'
+    },
+
+    {
+      path: 'users',
+      component: Users
+    },
+
+    {
+      path: 'challenges',
+      component: AdminChallenges
+    },
+    {
+      path: 'reports',
+      component: AdminReports
+    }
+
+  ]
+},
 
   // =========================
   // UNKNOWN URL

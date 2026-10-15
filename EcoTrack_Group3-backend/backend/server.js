@@ -49,7 +49,9 @@ app.use("/api/carbon-records", require("./routes/carbonRoutes"));
 app.use("/api/goals", require("./routes/goalRoutes"));
 app.use("/api/challenges", require("./routes/challengeRoutes"));
 app.use("/api/dashboard", require("./routes/dashboardRoutes"));
+app.use("/api/admin/auth",require("./routes/adminAuthRoutes"));
 app.use("/api/admin",require("./routes/adminRoutes"));
+
 
 // 404 handler
 app.use((req, res) => {

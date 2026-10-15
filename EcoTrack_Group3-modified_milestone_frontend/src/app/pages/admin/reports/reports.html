@@ -1,0 +1,75 @@
+<div class="admin-reports">
+  <div class="page-header">
+    <div>
+      <span class="page-label">ADMINISTRATION</span>
+      <h1>Reports & Analytics</h1>
+      <p>Insights into users and environmental challenges.</p>
+    </div>
+
+    <button class="download-btn" (click)="downloadReport()">
+      Download Report
+    </button>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <span>Total Users</span>
+      <h2>{{ totalUsers }}</h2>
+      <p>Registered users</p>
+    </div>
+
+    <div class="summary-card">
+      <span>Total Challenges</span>
+      <h2>{{ totalChallenges }}</h2>
+      <p>Available challenges</p>
+    </div>
+
+    <div class="summary-card">
+      <span>Completed Challenges</span>
+      <h2>{{ completedChallenges }}</h2>
+      <p>Challenges completed</p>
+    </div>
+
+    <div class="summary-card">
+      <span>Completion Rate</span>
+      <h2>{{ completionRate }}%</h2>
+      <div class="progress-track">
+        <div class="progress-fill"
+             [style.width.%]="completionRate"></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="report-card">
+    <h2>Challenge Overview</h2>
+    <p>Compare active and completed challenges.</p>
+
+    <div class="overview-row">
+      <span>Active Challenges</span>
+      <strong>{{ activeChallenges }}</strong>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill"
+           [style.width.%]="totalChallenges ? activeChallenges / totalChallenges * 100 : 0"></div>
+    </div>
+
+    <div class="overview-row">
+      <span>Completed Challenges</span>
+      <strong>{{ completedChallenges }}</strong>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill completed-fill"
+           [style.width.%]="completionRate"></div>
+    </div>
+  </section>
+
+  <div class="report-status" *ngIf="loading">
+    Loading report data...
+  </div>
+
+  <div class="report-status error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+</div>

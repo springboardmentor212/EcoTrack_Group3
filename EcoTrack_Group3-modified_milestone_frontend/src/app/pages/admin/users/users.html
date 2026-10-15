@@ -1,29 +1,178 @@
 <div class="admin-users">
-  <h1>Users</h1>
 
-  <div class="users-table" *ngIf="users.length > 0">
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Created At</th>
-        </tr>
-      </thead>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-heading">
+      <span class="page-label">ADMINISTRATION</span>
+      <h1>Users</h1>
+      <p>Monitor registered users and their EcoTrack progress.</p>
+    </div>
 
-      <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role }}</td>
-          <td>{{ user.createdAt | date }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="summary-card">
+      <div class="summary-icon">👥</div>
+      <div>
+        <span>Total Users</span>
+        <h2>{{ users.length }}</h2>
+      </div>
+    </div>
   </div>
 
-  <p *ngIf="users.length === 0">
-    No users found.
-  </p>
+  <!-- Users Section -->
+  <section class="users-panel">
+
+    <div class="panel-header">
+      <div>
+        <h2>Registered Users</h2>
+        <p>Manage user information and track their progress.</p>
+      </div>
+
+      <span class="user-count">{{ users.length }} users</span>
+    </div>
+
+    <!-- Search -->
+    <div class="users-toolbar">
+      <div class="search-box">
+        <span>⌕</span>
+        <input
+          type="text"
+          [(ngModel)]="searchText"
+          placeholder="Search by name or email..."
+          aria-label="Search users"
+        >
+      </div>
+    </div>
+
+    <!-- User List -->
+    <div class="user-list" *ngIf="users.length > 0">
+
+      <div class="user-card" *ngFor="let user of filteredUsers">
+
+        <div class="user-main">
+          <div class="user-avatar">
+            {{ (user.name || 'U').charAt(0).toUpperCase() }}
+          </div>
+
+          <div class="user-identity">
+            <h3>{{ user.name || 'Unnamed User' }}</h3>
+            <p>{{ user.email }}</p>
+            <span class="user-status">
+              <span class="status-dot"></span>
+              Registered
+            </span>
+          </div>
+        </div>
+
+        <div class="user-metrics">
+
+          <div class="metric">
+            <span class="metric-label">LEVEL</span>
+            <strong>{{ user.level ?? '—' }}</strong>
+          </div>
+
+          <div class="metric">
+            <span class="metric-label">TOTAL POINTS</span>
+            <strong>{{ user.totalPoints ?? 0 }}</strong>
+          </div>
+
+          <div class="metric">
+            <span class="metric-label">CURRENT STREAK</span>
+            <strong>
+              🔥 {{ user.currentStreak ?? 0 }}
+              {{ user.currentStreak === 1 ? 'day' : 'days' }}
+            </strong>
+          </div>
+
+          <div class="metric">
+            <span class="metric-label">DATE JOINED</span>
+            <strong>
+              {{ user.createdAt ? (user.createdAt | date:'dd MMM yyyy') : '—' }}
+            </strong>
+          </div>
+
+        </div>
+        <div class="user-actions">
+        <button
+          type="button"
+          class="action-button"
+          title="User management actions"
+          aria-label="User management actions"
+          (click)="toggleActions(user)"
+           [attr.aria-expanded]="openActionUserId === user._id ">
+          ⋯
+        </button>
+        <div class="action-menu" *ngIf="openActionUserId === user._id">
+          <button
+          type="button" (click)="viewDetails(user)">
+        View Details 
+       </button>
+       <button 
+       type="button" (click)="editUser(user)">
+      Ecit User
+      </button>
+      </div>
+    </div>
+    <div class="user-details-inline"
+     *ngIf="showDetails && selectedUser?._id === user._id">
+
+  <h3>Additional User Details</h3>
+
+  <div class="detail-grid">
+    <div class="detail-item">
+      <span>Role</span>
+      <strong>{{ user.role || 'User' }}</strong>
+    </div>
+
+    <div class="detail-item">
+      <span>Last Active</span>
+      <strong>
+        {{ user.lastActiveDate
+          ? (user.lastActiveDate | date:'dd MMM yyyy, h:mm a')
+          : 'Not available' }}
+      </strong>
+    </div>
+
+    <div class="detail-item">
+      <span>Challenges Joined</span>
+      <strong>Not available</strong>
+    </div>
+
+    <div class="detail-item">
+      <span>Activities Completed</span>
+      <strong>Not available</strong>
+    </div>
+
+    <div class="detail-item">
+      <span>Goals Completed</span>
+      <strong>Not available</strong>
+    </div>
+
+    <div class="detail-item">
+      <span>Carbon Footprint</span>
+      <strong>Not available</strong>
+    </div>
+  </div>
+
+  <button type="button"
+          class="detail-close"
+          (click)="closeDetails()">
+    Close Details
+  </button>
+</div>
+  </div>
+
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="filteredUsers.length === 0">
+      <div class="empty-icon">👥</div>
+      <h3>No users found</h3>
+      <p>Registered users will appear here.</p>
+    </div>
+
+    <div class="panel-footer" *ngIf="users.length > 0">
+      Displaying {{ users.length }} registered users
+    </div>
+
+  </section>
+
 </div>
