@@ -19,6 +19,7 @@ const formatUser = (user) => {
     _id: userObj._id,
     name: userObj.name,
     email: userObj.email,
+    role: userObj.role,
     avatar: userObj.avatar,
     level: userObj.level,
     totalPoints: userObj.totalPoints,

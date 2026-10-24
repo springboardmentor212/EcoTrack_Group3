@@ -139,4 +139,8 @@ export class AuthService {
     return !!this.getToken();
 
   }
+  isAdmin(): boolean {
+    const user=this.getUser();
+    return user?.role === 'admin';
+  }
 }

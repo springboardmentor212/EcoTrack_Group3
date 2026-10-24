@@ -1,0 +1,117 @@
+<div class="admin-challenges">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <span class="page-label">ADMINISTRATION</span>
+      <h1>Challenges</h1>
+      <p>Monitor challenge participation and user progress.</p>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <span>Total Challenges</span>
+      <h2>{{ challenges.length }}</h2>
+    </div>
+
+    <div class="summary-card">
+      <span>Active</span>
+      <h2>{{ activeCount }}</h2>
+    </div>
+
+    <div class="summary-card">
+      <span>Completed</span>
+      <h2>{{ completedCount }}</h2>
+    </div>
+  </div>
+
+  <!-- Challenges Panel -->
+  <section class="challenges-panel">
+
+    <div class="panel-header">
+      <div>
+        <h2>Challenge Records</h2>
+        <p>Review challenges and track participant progress.</p>
+      </div>
+      <span class="record-count">{{ filteredChallenges.length }} records</span>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="challenges-toolbar">
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        placeholder="Search challenge or user..."
+        aria-label="Search challenges"
+      >
+
+      <select [(ngModel)]="statusFilter" aria-label="Filter by status">
+        <option value="all">All statuses</option>
+        <option value="active">Active</option>
+        <option value="completed">Completed</option>
+      </select>
+    </div>
+
+    <!-- Challenges Table -->
+    <div class="challenges-table" *ngIf="filteredChallenges.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>Challenge</th>
+            <th>User</th>
+            <th>Type</th>
+            <th>Target</th>
+            <th>Progress</th>
+            <th>Points</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let challenge of filteredChallenges">
+            <td>
+              <strong>{{ challenge.title || 'Untitled challenge' }}</strong>
+            </td>
+
+            <td>
+              <div *ngIf="challenge.userId">
+                {{ challenge.userId.name || 'Unnamed user' }}<br>
+                <small>{{ challenge.userId.email }}</small>
+              </div>
+              <span *ngIf="!challenge.userId">Unknown user</span>
+            </td>
+
+            <td>{{ challenge.type || '—' }}</td>
+
+            <td>{{ challenge.target ?? '—' }} {{ challenge.unit || '' }}</td>
+
+            <td>{{ challenge.progress ?? 0 }} {{ challenge.unit || '' }}</td>
+
+            <td>{{ challenge.points ?? 0 }}</td>
+
+            <td>
+              <span class="status-badge"
+                    [class.completed]="challenge.completed"
+                    [class.active]="!challenge.completed">
+                {{ challenge.completed ? 'Completed' : 'Active' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="filteredChallenges.length === 0">
+      <h3>No challenges found</h3>
+      <p>Try another search term or change the status filter.</p>
+    </div>
+
+    <div class="panel-footer" *ngIf="filteredChallenges.length > 0">
+      Showing {{ filteredChallenges.length }} of {{ challenges.length }} records
+    </div>
+
+  </section>
+</div>

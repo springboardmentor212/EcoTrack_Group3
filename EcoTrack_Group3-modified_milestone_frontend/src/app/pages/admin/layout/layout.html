@@ -1,0 +1,59 @@
+<div class="admin-layout">
+
+  <aside class="sidebar">
+
+    <div class="sidebar-brand">
+      <div class="logo">🌿</div>
+
+      <div>
+        <h2>EcoTrack</h2>
+        <span>Admin Panel</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <a
+        routerLink="/admin/users"
+        routerLinkActive="active"
+      >
+        <span>👥</span>
+        <span>Users</span>
+      </a>
+
+      <a
+        routerLink="/admin/challenges"
+        routerLinkActive="active"
+      >
+        <span>🏆</span>
+        <span>Challenges</span>
+      </a>
+
+      <a
+        routerLink="/admin/reports"
+        routerLinkActive="active"
+      >
+        <span>📊</span>
+        <span>Reports</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+      <button type="button" (click)="logout()">
+        <span>↪</span>
+        <span>Logout</span>
+      </button>
+
+    </div>
+
+  </aside>
+
+  <main class="admin-content">
+
+    <router-outlet></router-outlet>
+
+  </main>
+
+</div>
